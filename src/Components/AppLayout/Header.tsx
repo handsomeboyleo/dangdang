@@ -8,5 +8,5 @@ const StyledNavBar = styled(NavBar)`
 `
 
 export const DHeader: FC = () => { 
-    return <StyledNavBar>配合路由使用</StyledNavBar>
+    return <StyledNavBar back={null}>配合路由使用</StyledNavBar>
 }

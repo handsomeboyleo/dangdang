@@ -11,7 +11,7 @@ const StyledBody = styled.div`
     justify-content: center;
     align-items: center;
 `;
-export const Layout: FC = () => (
+export const AppLayout: FC = () => (
   <>
     <DHeader />
     <StyledBody>

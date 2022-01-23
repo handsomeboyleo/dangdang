@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 import {
-  BrowserRouter as Router, useRoutes,
+  BrowserRouter as Router, useLocation, useRoutes,
 } from 'react-router-dom';
-import { Home } from '../pages/Home/Home';
-import { Messages } from '../pages/Messages/Messages';
-import { Layout } from '../Components/Layout/Layout';
-import { NotFoundPage } from '../pages/NotFoundPage';
+import { Home } from '../Pages/Home/Home';
+import { Messages } from '../Pages/Messages/Messages';
+import { AppLayout } from '../Components/AppLayout/AppLayout';
+import { NotFoundPage } from '../Pages/NotFoundPage';
 
 const routeMap = [
   {
     path: '/',
-    element: <Layout />,
+    element: <AppLayout />, //app内页面
     children: [
       {
         index: true,
@@ -28,14 +28,19 @@ const routeMap = [
     element:<NotFoundPage/>
   }
 ];
-const JsRoutes = () => {
-  const jsRoutes= useRoutes(routeMap);
-  return jsRoutes;
-};
-const CustomRouter:FC = () => (
-  <Router>
-    <JsRoutes />
-  </Router>
-);
+
+const CustomRouter:FC = () => {
+
+  const JsRoutes = () => {
+    const jsRoutes= useRoutes(routeMap);
+    const location = useLocation();
+    console.log(location)
+    return jsRoutes;
+  };
+  return (
+      <Router>
+        <JsRoutes />
+      </Router>
+  )}
 
 export default CustomRouter;
