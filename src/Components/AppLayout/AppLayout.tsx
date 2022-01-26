@@ -11,12 +11,15 @@ const StyledBody = styled.div`
     justify-content: center;
     align-items: center;
 `;
-export const AppLayout: FC = () => (
-  <>
-    <DHeader />
-    <StyledBody>
-      <Outlet />
-    </StyledBody>
-    <DTabBar />
-  </>
-);
+export const AppLayout: FC = () => {
+
+    return(
+        <>
+            <DHeader />
+            <StyledBody>
+                <Outlet />
+            </StyledBody>
+            <DTabBar />
+        </>
+    )
+};

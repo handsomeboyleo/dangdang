@@ -10,15 +10,22 @@
     "@types/node": "^16.11.21",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
+    "@types/react-redux": "^7.1.22",
     "@types/react-router-dom": "^5.3.3",
+    "@types/redux-thunk": "^2.1.0",
     "@types/styled-components": "^5.1.21",
     "antd-mobile": "^5.0.0-rc.21",
     "antd-mobile-icons": "^0.2.2",
+    "axios": "^0.25.0",
+    "prop-types": "^15.8.1",
     "react": "^17.0.2",
+    "react-axios": "^2.0.5",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
     "styled-components": "^5.3.3",
     "typescript": "^4.5.5",
     "web-vitals": "^2.1.4"
@@ -46,5 +53,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.9"
   }
 }

@@ -20,8 +20,8 @@ const tabs = [
     icon: <AppOutline />,
   },
   {
-    key: '/todo',
-    title: '我的待办',
+    key: '/contact',
+    title: '联系人',
     icon: <UnorderedListOutline />,
   },
   {
@@ -30,7 +30,7 @@ const tabs = [
     icon: <MessageOutline />,
   },
   {
-    key: '/me',
+    key: '/userCenter',
     title: '个人中心',
     icon: <UserOutline />,
   },

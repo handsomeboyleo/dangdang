@@ -1,45 +1,37 @@
-import React, { FC } from 'react';
+import React, {FC, useEffect} from 'react';
 import {
-  BrowserRouter as Router, useLocation, useRoutes,
+  BrowserRouter as Router, useLocation, useNavigate, useRoutes,
 } from 'react-router-dom';
-import { Home } from '../Pages/Home/Home';
-import { Messages } from '../Pages/Messages/Messages';
-import { AppLayout } from '../Components/AppLayout/AppLayout';
-import { NotFoundPage } from '../Pages/NotFoundPage';
+import {routerUpdate} from "../Store/actions";
+import {useDispatch} from "react-redux";
+import { routeMap } from './RouterMap';
 
-const routeMap = [
-  {
-    path: '/',
-    element: <AppLayout />, //app内页面
-    children: [
-      {
-        index: true,
-        path: 'home',
-        element: <Home />,
-      },
-      {
-        path: 'messages',
-        element: <Messages />,
-      },
-    ],
-  },
-  {
-    path: '*',
-    element:<NotFoundPage/>
-  }
-];
+const AuthRouter:FC=(props)=>{
+  const onLogin = localStorage.getItem('onLogin')
+  const navigate = useNavigate()
+  useEffect(()=>{
+    if(!onLogin){
+      navigate('auth')
+    }
+  },[navigate, onLogin])
+  return <>
+    {props.children}
+  </>
+}
 
 const CustomRouter:FC = () => {
-
+  const dispatch = useDispatch()
   const JsRoutes = () => {
     const jsRoutes= useRoutes(routeMap);
     const location = useLocation();
-    console.log(location)
+    dispatch(routerUpdate(location))
     return jsRoutes;
   };
   return (
       <Router>
-        <JsRoutes />
+        <AuthRouter>
+          <JsRoutes />
+        </AuthRouter>
       </Router>
   )}
 
