@@ -1,7 +1,8 @@
 import React, {FC} from 'react';
 import { Link } from 'react-router-dom';
 
-export const Home: FC = () => {
+const Home: FC = () => {
 
     return <Link to="/messages">home to messages</Link>
 };
+export default Home

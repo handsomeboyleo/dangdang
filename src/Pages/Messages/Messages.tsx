@@ -1,6 +1,5 @@
 import { List ,Image} from 'antd-mobile';
 import React, { FC } from 'react';
-import './message.less'
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +35,7 @@ const users = [
                 description: 'Commodi earum exercitationem id numquam vitae',
         },
 ]
-export const Messages: FC = () => {
+const Messages: FC = () => {
     const navigate = useNavigate()
     const onChat = (user:any) => {
         console.log(user)
@@ -47,6 +46,7 @@ export const Messages: FC = () => {
             {users.map(user => (
                 <List.Item
                     key={user.name}
+                    onClick={()=>onChat(user)}
                     prefix={
                         <Image
                             src={user.avatar}
@@ -54,7 +54,6 @@ export const Messages: FC = () => {
                             fit='cover'
                             width={40}
                             height={40}
-                            onClick={()=>onChat(user)}
                         />
                     }
                     description={user.description}
@@ -65,3 +64,4 @@ export const Messages: FC = () => {
         </List>
     </MessageContainer>}
 ;
+export default Messages
