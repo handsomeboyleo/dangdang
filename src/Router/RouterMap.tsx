@@ -4,13 +4,18 @@ import {Home} from "../Pages/Home/Home";
 import Contact from "../Pages/Contact/Contact";
 import {Messages} from "../Pages/Messages/Messages";
 import UserCenter from "../Pages/UserCenter/UserCenter";
-import {NotFoundPage} from "../Pages/NotFoundPage";
+import NotFoundPage from "../Pages/NotFoundPage";
 import Authorization from "../Pages/Auth/Authorization";
+import Chat from "../Pages/Messages/Chat";
 
 export const routeMap = [
     {
         path: '/auth',
         element: <Authorization />, //登陆与注册
+    },
+    {
+        path: '/chat',
+        element: <Chat/>
     },
     {
         path: '/',

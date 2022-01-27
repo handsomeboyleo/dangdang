@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import {
   BrowserRouter as Router, useLocation, useNavigate, useRoutes,
 } from 'react-router-dom';
-import {routerUpdate} from "../Store/actions";
+import {routerUpdate} from "../Redux/actions";
 import {useDispatch} from "react-redux";
 import { routeMap } from './RouterMap';
 
@@ -11,7 +11,7 @@ const AuthRouter:FC=(props)=>{
   const navigate = useNavigate()
   useEffect(()=>{
     if(!onLogin){
-      navigate('auth')
+      navigate('/auth')
     }
   },[navigate, onLogin])
   return <>

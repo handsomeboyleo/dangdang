@@ -19,8 +19,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "import/no-anonymous-default-export": false
-
   },
   "include": [
     "src"

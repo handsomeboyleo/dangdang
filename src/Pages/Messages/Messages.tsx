@@ -2,6 +2,7 @@ import { List ,Image} from 'antd-mobile';
 import React, { FC } from 'react';
 import './message.less'
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const MessageContainer = styled.div`
   width: 100%;
@@ -35,8 +36,13 @@ const users = [
                 description: 'Commodi earum exercitationem id numquam vitae',
         },
 ]
-export const Messages: FC = () =>
-    <MessageContainer >
+export const Messages: FC = () => {
+    const navigate = useNavigate()
+    const onChat = (user:any) => {
+        console.log(user)
+        navigate('/chat')
+    }
+    return <MessageContainer >
         <List header='用户列表'>
             {users.map(user => (
                 <List.Item
@@ -48,6 +54,7 @@ export const Messages: FC = () =>
                             fit='cover'
                             width={40}
                             height={40}
+                            onClick={()=>onChat(user)}
                         />
                     }
                     description={user.description}
@@ -56,5 +63,5 @@ export const Messages: FC = () =>
                 </List.Item>
             ))}
         </List>
-    </MessageContainer>
+    </MessageContainer>}
 ;

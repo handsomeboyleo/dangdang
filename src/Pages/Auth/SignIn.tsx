@@ -1,6 +1,6 @@
 import React, {FC, useState} from "react";
 import {Button, Form, Input} from "antd-mobile";
-import {detectLoginAction} from "../../Store/actions";
+import {detectLoginAction} from "../../Redux/actions";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 interface SignInProps{
