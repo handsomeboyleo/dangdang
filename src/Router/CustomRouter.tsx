@@ -5,15 +5,18 @@ import {
 import {routerUpdate} from "../Redux/actions";
 import {useDispatch} from "react-redux";
 import { routeMap } from './RouterMap';
+import {useStoreSelector} from "../Redux/selector";
 
 const AuthRouter:FC=(props)=>{
   const onLogin = localStorage.getItem('onLogin')
+  const authState = useStoreSelector(state=>state.authState)
   const navigate = useNavigate()
+  const checkWebAuth=onLogin&&authState.onLogin
   useEffect(()=>{
-    if(!onLogin){
-      navigate('/auth')
-    }
-  },[navigate, onLogin])
+    if(!onLogin||!checkWebAuth){
+        navigate('auth')
+      }
+  },[checkWebAuth, navigate, onLogin])
   return <>
     {props.children}
   </>
