@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import styled from "styled-components";
 import {MessageType, UserType} from "../Pages/Messages/type";
-import {Image} from "antd-mobile";
+import {Avatar, Image} from "antd-mobile";
 
 const MsgContainer = styled.div`
   display: flex;
@@ -11,11 +11,10 @@ const MsgContainer = styled.div`
 `;
 
 const MsgUser = styled.div`
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
   margin: 5px 10px 5px 10px;
-  background-color: cadetblue;
   line-height: 50px;
   text-align: center;
   color: white;
@@ -54,12 +53,10 @@ const SingleMessage:FC<SingleMessageProps> =({user, msg})=>{
     },[])
     return <MsgContainer style={{flexDirection: `${right?'row-reverse':'row'}`}}>
         <MsgUser >
-            <Image
-                src={user.avatar}
+            <Avatar
+                src={user.avatar||''}
                 style={{ borderRadius: 25 }}
                 fit='cover'
-                width={50}
-                height={50}
             />
         </MsgUser>
         <MsgBox >

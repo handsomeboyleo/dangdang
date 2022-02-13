@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {selectChatAction} from "../../Redux/actions";
+import {fakeMsgs} from "../../Utils/fakeData";
 
 const MessageContainer = styled.div`
   width: 100%;
@@ -41,6 +42,7 @@ const Messages: FC = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const onChat = (user:any) => {
+        fakeMsgs()
         dispatch(selectChatAction(user))
         navigate('/chat')
     }

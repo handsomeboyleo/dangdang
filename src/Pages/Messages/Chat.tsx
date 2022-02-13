@@ -1,36 +1,86 @@
-import {Input, List, NavBar, PullToRefresh} from 'antd-mobile';
-import React, {FC, useState} from 'react'
+import React, {FC, useEffect, useState} from 'react'
+import {Button, NavBar, TextArea,} from 'antd-mobile';
 import {useNavigate} from "react-router-dom";
 import {useStoreSelector} from "../../Redux/selector";
-import {PullStatus} from "antd-mobile/es/components/pull-to-refresh";
-import {sleep} from "antd-mobile/es/utils/sleep";
 import SingleMessage from "../../Components/SingleMessage";
+import styled from "styled-components";
+import {MessageType} from "./type";
 
-
+const StyledChatContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+const StyledScroll= styled.div`
+  flex: 1;
+  overflow: auto;
+`;
+const StyledTextArea= styled.div`
+  position: absolute;
+  bottom: 0;
+  width:100%;
+  max-height: 100px;
+  min-height:25px;
+  padding: 5px 0;
+  display:flex;
+  flex-direction: row;
+  justify-content:space-between;
+  border-top:1px solid lightgrey;
+  background-color: #FFFFFF;
+`;
+const StyledSendButton= styled(Button)`
+  width:100px;
+  height:50px;
+`;
 
 const Chat: FC = () => {
     const navigate = useNavigate()
-    const chatUser = useStoreSelector(state=>state.selectChat) || ''
+    const [value, setValue] = useState('');
+    const chatUser = useStoreSelector(state=>state.selectChat)
+    const userChat =JSON.parse(localStorage.getItem(`CHAT_${chatUser.name}`) || '')
+
+    useEffect(() => {
+        let dialog = document.getElementById("dialog");
+        if(dialog){
+            dialog.scrollTop = dialog.scrollHeight;
+        }
+    }, []);
+
+    const sendMsg = ()=>{
+        console.log(value)
+    }
+
     const back = () =>{
         navigate('/messages')
     }
-    console.log(chatUser)
-    const msg={
-        from:'dxx',
-        to:'cxsa',
-        msg:'camiodvnma',
-        type:'dsadfcdsa',
-        time:'123123'
-    }
-    return <>
+
+    return <StyledChatContainer>
         <NavBar onBack={back} back={'返回'}>{
-            (chatUser.name) as string
+            chatUser.name
         }</NavBar>
-        <SingleMessage user={chatUser} msg={msg}/>
-        <SingleMessage user={chatUser} msg={msg}/>
-        <SingleMessage user={chatUser} msg={msg}/>
-        <SingleMessage user={chatUser} msg={msg}/>
-        <Input />
-    </>
+        <StyledScroll id="dialog">
+            {
+                userChat&&(userChat as MessageType[]).map((item,idx) => {
+                    return <SingleMessage key={idx} user={chatUser} msg={item}/>
+                })
+            }
+        </StyledScroll>
+        <StyledTextArea>
+            <TextArea
+                placeholder='说点什么吧...'
+                value={value}
+                onChange={val => {
+                    setValue(val)
+                }}
+                autoSize={{ minRows: 1, maxRows: 4}}
+            />
+            <StyledSendButton
+                color={'success'}
+                block
+                onClick={sendMsg}
+            >发送</StyledSendButton>
+        </StyledTextArea>
+    </StyledChatContainer>
 }
 export default Chat
