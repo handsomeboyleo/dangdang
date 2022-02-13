@@ -20,8 +20,17 @@ const authState = (state={onLogin:false},action:ActionTypes) =>{
             return state
     }
 }
+const selectChat = (state={},action:ActionTypes)=>{
+    switch(action.type){
+        case 'SELECT_CHAT':
+            return action.data
+        default:
+            return state
+    }
+}
 
 export const finalReducer = combineReducers({
     routerInfo,
-    authState
+    authState,
+    selectChat
 })

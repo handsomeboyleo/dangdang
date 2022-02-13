@@ -2,6 +2,8 @@ import { List ,Image} from 'antd-mobile';
 import React, { FC } from 'react';
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import {selectChatAction} from "../../Redux/actions";
 
 const MessageContainer = styled.div`
   width: 100%;
@@ -37,8 +39,9 @@ const users = [
 ]
 const Messages: FC = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const onChat = (user:any) => {
-        console.log(user)
+        dispatch(selectChatAction(user))
         navigate('/chat')
     }
     return <MessageContainer >
@@ -50,10 +53,10 @@ const Messages: FC = () => {
                     prefix={
                         <Image
                             src={user.avatar}
-                            style={{ borderRadius: 20 }}
+                            style={{ borderRadius: 25 }}
                             fit='cover'
-                            width={40}
-                            height={40}
+                            width={50}
+                            height={50}
                         />
                     }
                     description={user.description}

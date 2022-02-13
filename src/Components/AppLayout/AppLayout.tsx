@@ -6,17 +6,18 @@ import { DHeader } from './Header';
 const StyledBody = styled.div`
     flex: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 `;
-const AppLayout: FC = () => {
+const AppLayout: React.FC = () => {
 
     return(
         <>
             <DHeader />
-            <StyledBody>
-                <Outlet />
-            </StyledBody>
+                <StyledBody>
+                    <Outlet />
+                </StyledBody>
             <DTabBar />
         </>
     )
