@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import styled from "styled-components";
 import {MessageType, UserType} from "../Pages/Messages/type";
-import {Avatar, Image} from "antd-mobile";
+import {Avatar } from "antd-mobile";
 
 const MsgContainer = styled.div`
   display: flex;
@@ -46,11 +46,12 @@ interface SingleMessageProps{
 
 const SingleMessage:FC<SingleMessageProps> =({user, msg})=>{
     const [right,setRight]= useState(false);
+    const name= user.name
     useEffect(()=>{
-        if (user.name === '') {
+        if (name === '') {
             setRight(true)
         }
-    },[])
+    },[name])
     return <MsgContainer style={{flexDirection: `${right?'row-reverse':'row'}`}}>
         <MsgUser >
             <Avatar

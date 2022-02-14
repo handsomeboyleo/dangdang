@@ -5,6 +5,7 @@ import {useStoreSelector} from "../../Redux/selector";
 import SingleMessage from "../../Components/SingleMessage";
 import styled from "styled-components";
 import {MessageType} from "./type";
+import {superSocket} from "../../Utils/superSocket";
 
 const StyledChatContainer = styled.div`
   width: 100%;
@@ -36,6 +37,7 @@ const StyledSendButton= styled(Button)`
 
 const Chat: FC = () => {
     const navigate = useNavigate()
+    const ws = superSocket.socket
     const [value, setValue] = useState('');
     const chatUser = useStoreSelector(state=>state.selectChat)
     const userChat =JSON.parse(localStorage.getItem(`CHAT_${chatUser.name}`) || '')
@@ -48,7 +50,13 @@ const Chat: FC = () => {
     }, []);
 
     const sendMsg = ()=>{
-        console.log(value)
+        const data = {
+            user: 'dingding',
+            msg: value,
+            target: 'dingding',
+        };
+        ws.send(JSON.stringify(data));
+        setValue('')
     }
 
     const back = () =>{
