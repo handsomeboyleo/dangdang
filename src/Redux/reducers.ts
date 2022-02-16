@@ -11,10 +11,10 @@ const routerInfo = (state={route:{}},action:ActionTypes) =>{
     }
 }
 
-const authState = (state={onLogin:false},action:ActionTypes) =>{
+const authState = (state={isLogin:false},action:ActionTypes) =>{
     switch(action.type){
         case 'AUTH_CHANGE':
-            localStorage.setItem('onLogin',action.data)
+            localStorage.setItem('isLogin',JSON.stringify(action.data))
             return action.data
         default:
             return state

@@ -1,7 +1,8 @@
 import React, {FC, useEffect, useState} from 'react';
 import styled from "styled-components";
-import {MessageType, UserType} from "../Pages/Messages/type";
+import {MessageType} from "../Pages/Messages/type";
 import {Avatar } from "antd-mobile";
+import { UserType } from '../Types/accountTypes';
 
 const MsgContainer = styled.div`
   display: flex;

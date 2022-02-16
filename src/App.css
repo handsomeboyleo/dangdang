@@ -10,7 +10,7 @@ body {
 
 #root {
   width: 100%;
-  height: 100vh;
+  /*height: 100%; //App内动态设置高度，移动端兼容 */
   display: flex;
   flex-direction: column;
   background: #eeeeee;

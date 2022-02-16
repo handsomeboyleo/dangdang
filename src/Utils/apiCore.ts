@@ -1,27 +1,33 @@
 import axios from "axios";
 import {apiBaseUrl} from "../const";
 
+interface ResponseDataType<T> {
+    code:number,
+    data:T,
+    msg:string
+}
+
 const instance = axios.create({
     baseURL: apiBaseUrl,
     timeout: 20000,
-    headers: {}
+    // headers: {}
 });
 
-const get = async (url:string, params?:string, options?:any)=> {
-    return new Promise((resolve,reject)=>{
+const get = async <T> (url:string, params?:string, options?:any)=> {
+    return new Promise<ResponseDataType<T>>((resolve,reject)=>{
         instance.get(url,{
             params,
             ...options
-        }).then((res)=>{resolve(res)}).catch((e)=>{
+        }).then((res)=>{resolve(res.data )}).catch((e)=>{
             reject(e);
         })
     })
 }
-const post =async (url:string, body?:any, options?:any)=> {
-    return new Promise((resolve,reject)=>{
+const post =  async <T> (url:string, body?:any, options?:any,)=> {
+    return new Promise<ResponseDataType<T>>((resolve,reject)=>{
         instance.post(url,body,options).then(
             (res)=>{
-                resolve(res)
+                resolve(res.data )
             }).catch((e)=>{
             reject(e);
         })

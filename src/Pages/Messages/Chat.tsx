@@ -9,17 +9,16 @@ import {superSocket} from "../../Utils/superSocket";
 
 const StyledChatContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height:100%;
   display: flex;
   flex-direction: column;
 `;
 const StyledScroll= styled.div`
   flex: 1;
   overflow: auto;
+  padding-bottom: 5px;
 `;
 const StyledTextArea= styled.div`
-  position: absolute;
-  bottom: 0;
   width:100%;
   max-height: 100px;
   min-height:25px;
@@ -44,6 +43,7 @@ const Chat: FC = () => {
 
     useEffect(() => {
         let dialog = document.getElementById("dialog");
+
         if(dialog){
             dialog.scrollTop = dialog.scrollHeight;
         }
@@ -63,7 +63,7 @@ const Chat: FC = () => {
         navigate('/messages')
     }
 
-    return <StyledChatContainer>
+    return <StyledChatContainer id={'container'}>
         <NavBar onBack={back} back={'返回'}>{
             chatUser.name
         }</NavBar>

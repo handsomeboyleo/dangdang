@@ -5,6 +5,7 @@ import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {signIn} from "../../API/account";
 import styled from "styled-components";
+import initWS from "../../Utils/websocket";
 
 const StyledContainer =styled.div`
   display:flex;
@@ -32,17 +33,31 @@ const SignIn:FC<SignInProps> =({change})=>{
     const [password, setPassword] = useState('');
     const onSignIn=async()=>{
         const data = {
-            account,
+            email:account,
             password
         }
         await signIn(data).then((res)=>{
-            console.log(res)
-            dispatch(detectLoginAction({onLogin:true}))
-            navigate('/home', {replace: true})
+            if(res.code === 200){
+                // @ts-ignore
+                dispatch(detectLoginAction({isLogin: true, userInfo:res.data,}))
+                navigate('/home', {replace: true})
+                // @ts-ignore
+                initWS(res.data._id)
+            }
         })
     }
     const test =()=>{
-        dispatch(detectLoginAction({onLogin:true}))
+        dispatch(detectLoginAction({
+            isLogin: true, userInfo: {
+                id:'xxxxx1',
+                name:'test',
+                email:'test@example.com',
+                phoneNumber:'1234567890',
+                gender:'male',
+                age: 36,
+                description:'hello, Im robot'
+            },
+        }))
         navigate('/home', {replace: true})
     }
     return <StyledContainer>

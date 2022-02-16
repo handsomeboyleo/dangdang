@@ -1,17 +1,13 @@
-import React, {FC, useEffect} from "react";
+import React, {FC} from "react";
 import {useStoreSelector} from "../Redux/selector";
-import initWS from "../Utils/websocket";
 import Authorization from "../Pages/Auth/Authorization";
 
 const AuthRouter:FC=({children})=>{
-    const onLogin = localStorage.getItem('onLogin')
+    const localUserData = localStorage.getItem('isLogin')
+    const isLogin = JSON.parse(localUserData||'{}')
     const authState = useStoreSelector(state=>state.authState)
-    const checkWebAuth=onLogin&&authState.onLogin
-    useEffect(()=>{
-        if(checkWebAuth){
-            initWS('dingding')
-        }
-    },[checkWebAuth])
+    const checkWebAuth=isLogin&&authState.isLogin
+
     return <>
         {
             checkWebAuth ? <>{children}</>: <Authorization/>
