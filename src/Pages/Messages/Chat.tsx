@@ -6,6 +6,7 @@ import SingleMessage from "../../Components/SingleMessage";
 import styled from "styled-components";
 import {MessageType} from "./type";
 import {superSocket} from "../../Utils/superSocket";
+import {sendMessage} from "../../API/chat";
 
 const StyledChatContainer = styled.div`
   width: 100%;
@@ -37,10 +38,11 @@ const StyledSendButton= styled(Button)`
 const Chat: FC = () => {
     const navigate = useNavigate()
     const ws = superSocket.socket
-    const [value, setValue] = useState('');
     const chatUser = useStoreSelector(state=>state.selectChat)
-    const userChat =JSON.parse(localStorage.getItem(`CHAT_${chatUser.name}`) || '')
-
+    const localChat =JSON.parse(localStorage.getItem(`CHAT_${chatUser.name}`) || '') as MessageType[]
+    const [value, setValue] = useState('');
+    const [msgList,setMsgList] = useState<MessageType[]>(localChat)
+    const auth = useStoreSelector(state => state.authState)
     useEffect(() => {
         let dialog = document.getElementById("dialog");
 
@@ -49,17 +51,38 @@ const Chat: FC = () => {
         }
     }, []);
 
-    const sendMsg = ()=>{
+    const sendMsg = async ()=>{
+        const now = new Date()
         const data = {
             user: 'dingding',
             msg: value,
             target: 'dingding',
         };
+        const msg = {
+            id: auth.userInfo._id+ now.getTime(),
+            type:'MESSAGE',
+            send: auth.userInfo._id,
+            receive: chatUser.id,
+            msg:value,
+            sendTime: `${Date}`,
+            isRead:false
+        }
         ws.send(JSON.stringify(data));
+        await sendMessage(msg);
+        setMsgList([...msgList,msg]) 
+        console.log(msgList)
+        scrollToBottom()
         setValue('')
     }
+    const scrollToBottom = () => {
+        let dialog = document.getElementById("dialog");
 
-    const back = () =>{
+        if(dialog){
+            dialog.scrollTop = dialog.scrollHeight;
+        }
+    }
+    const back = () => {
+        localStorage.setItem(`CHAT_${chatUser.name}`, JSON.stringify(msgList))
         navigate('/messages')
     }
 
@@ -69,7 +92,7 @@ const Chat: FC = () => {
         }</NavBar>
         <StyledScroll id="dialog">
             {
-                userChat&&(userChat as MessageType[]).map((item,idx) => {
+                msgList.map((item,idx) => {
                     return <SingleMessage key={idx} user={chatUser} msg={item}/>
                 })
             }

@@ -1,13 +1,13 @@
 // import {userGetOnlineUsers} from '../api/user.js'
 
-import {wsBaseUrl} from "../const";
-import {superSocket} from "./superSocket";
+import { wsBaseUrl } from "../config";
+import { superSocket } from "./superSocket";
 
-const initWS = (name:string) => {
-    const ws = superSocket.init(wsBaseUrl+name)
-    if(ws){
+const initWS = (name: string) => {
+    const ws = superSocket.init(wsBaseUrl + name)
+    if (ws) {
         ws.onopen = () => {
-            console.info(`%c-- ${name} websocket connected --`,'color:green');
+            console.info(`%c-- ${name} websocket connected --`, 'color:green');
         }
         ws.onclose = () => {
             console.warn('ws连接已断开！')
@@ -15,7 +15,7 @@ const initWS = (name:string) => {
         ws.onerror = () => {
             console.warn('ws连接异常！')
         }
-        ws.onmessage =async (e) => {
+        ws.onmessage = async (e) => {
             let message = JSON.parse(e.data)
             if (message.type === 'OPERATION') {
                 // await userGetOnlineUsers().then((data) => {

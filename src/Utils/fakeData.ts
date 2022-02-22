@@ -1,17 +1,19 @@
-import {MessageType} from "../Pages/Messages/type";
+import { MessageType } from "../Pages/Messages/type";
+import { UserType } from '../Types/accountTypes';
 
-export const fakeMsgs = ()=>{
-    const baseMsg=[] as MessageType[]
-    for(let i = 0;i<100;i++){
+export const fakeMsgs = (user: UserType) => {
+    const baseMsg = [] as MessageType[]
+    for (let i = 0; i < 100; i++) {
         baseMsg.push({
-            id: `${i}`,
-            from:'dxx',
-            to:'cxsa',
-            msg:'camiodvnma',
-            type:'dsadfcdsa',
-            time:'123123'
+            id: `${i % 3 === 0 ? '620d193d62e1df1971e7100d' : i}`,
+            send: `${i % 3 === 0 ? '620d193d62e1df1971e7100d' : user.id}`,
+            receive: `${i % 3 === 0 ? user.id : '620d193d62e1df1971e7100d'}`,
+            msg: 'camiodvnma',
+            type: 'dsadfcdsa',
+            sendTime: '123123',
+            isRead: false
         })
     }
-    localStorage.setItem('CHAT_Novalee Spicer',JSON.stringify(baseMsg))
+    localStorage.setItem(`CHAT_${user.name}`, JSON.stringify(baseMsg))
     return baseMsg
 }

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {MessageType} from "../Pages/Messages/type";
 import {Avatar } from "antd-mobile";
 import { UserType } from '../Types/accountTypes';
+import { useStoreSelector } from '../Redux/selector';
 
 const MsgContainer = styled.div`
   display: flex;
@@ -46,17 +47,19 @@ interface SingleMessageProps{
 }
 
 const SingleMessage:FC<SingleMessageProps> =({user, msg})=>{
-    const [right,setRight]= useState(false);
-    const name= user.name
+  const [right, setRight] = useState(false);
+  const auth = useStoreSelector(s => s.authState)
+  const userId = auth.userInfo._id 
+    const msgId= msg.send
     useEffect(()=>{
-        if (name === '') {
+        if (msgId === userId) {
             setRight(true)
         }
-    },[name])
+    },[msgId, userId])
     return <MsgContainer style={{flexDirection: `${right?'row-reverse':'row'}`}}>
         <MsgUser >
             <Avatar
-                src={user.avatar||''}
+                src={ right? auth.userInfo.avatar: user.avatar}
                 style={{ borderRadius: 25 }}
                 fit='cover'
             />
