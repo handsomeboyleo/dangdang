@@ -13,5 +13,5 @@ body {
   /*height: 100%; //App内动态设置高度，移动端兼容 */
   display: flex;
   flex-direction: column;
-  background: #eeeeee;
+  background: #f5f7fa;
 }
