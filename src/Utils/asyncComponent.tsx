@@ -1,4 +1,5 @@
-import React, { ComponentClass, FC } from "react";
+import React, { ComponentClass, FC } from 'react';
+
 type ReactComponent<T> = FC<T> | ComponentClass<T>;
 
 export type LoadComponent<T> = () => Promise<
@@ -10,32 +11,31 @@ type AsyncComponentState<T> = {
   Component: ReactComponent<T> | null;
 };
 
-export const asyncComponent = <T extends {}>(loadComponent: LoadComponent<T>) =>
-  class AsyncComponent extends React.Component<T, AsyncComponentState<T>> {
-    constructor(props: any) {
-      super(props);
-      this.state = {
-        isMounted: false,
-        Component: null,
-      };
-    }
-
-    componentWillUnmount = () => {
-      this.setState({ isMounted: false });
+export const asyncComponent = <T extends {}>(loadComponent: LoadComponent<T>) => class AsyncComponent extends React.Component<T, AsyncComponentState<T>> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      isMounted: false,
+      Component: null,
     };
+  }
 
-    componentDidMount = async () => {
-      const module = await loadComponent();
-      if ("default" in module) {
-        this.setState({ isMounted: true, Component: module.default });
-      } else {
-        this.setState({ isMounted: true, Component: module });
-      }
-    };
-
-    render() {
-      const { Component, isMounted } = this.state;
-
-      return <>{isMounted && Component && <Component {...this.props} />}</>;
+  async componentDidMount() {
+    const module = await loadComponent();
+    if ('default' in module) {
+      this.setState({ isMounted: true, Component: module.default });
+    } else {
+      this.setState({ isMounted: true, Component: module });
     }
-  };
+  }
+
+  componentWillUnmount() {
+    this.setState({ isMounted: false });
+  }
+
+  render() {
+    const { Component, isMounted } = this.state;
+
+    return <>{isMounted && Component && <Component {...this.props} />}</>;
+  }
+};

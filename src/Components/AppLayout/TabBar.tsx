@@ -1,13 +1,10 @@
 import React, { FC } from 'react';
 import {
-  AppOutline,
-  MessageOutline,
-  UnorderedListOutline,
-  UserOutline,
+  AppOutline, MessageOutline, UnorderedListOutline, UserOutline,
 } from 'antd-mobile-icons';
 import { TabBar } from 'antd-mobile';
 import styled from 'styled-components';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const StyledTabBar = styled(TabBar)`
     flex: 0;
@@ -43,11 +40,13 @@ export const DTabBar: FC = () => {
     navigate(value);
   };
   return (
-      <StyledTabBar activeKey={pathname}
-                    onChange={(value) => setRouteActive(value)}>
-        {tabs.map((item) => (
-            <TabBar.Item key={item.key} icon={item.icon} title={item.title}/>
-        ))}
-      </StyledTabBar>
+    <StyledTabBar
+      activeKey={pathname}
+      onChange={(value) => setRouteActive(value)}
+    >
+      {tabs.map((item) => (
+        <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+      ))}
+    </StyledTabBar>
   );
 };

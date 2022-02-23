@@ -1,79 +1,81 @@
-import React, {FC, useCallback, useEffect, useState} from 'react'
-import {
-    Button,
-    InfiniteScroll,
-    List,
-    DotLoading,
-    SearchBar,
-} from 'antd-mobile'
+import React, { FC, useEffect, useState } from 'react';
+import { Image, List } from 'antd-mobile';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { addChatList, selectChatAction } from '../../Redux/actions';
+import { useStoreSelector } from '../../Redux/selector';
+import { UserType } from '../../Types/accountTypes';
+import { getAllUsers } from '../../API/account';
 
-let count = 0
+const Contact: FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [users, setUsers] = useState<UserType[]>([]);
+  const chatList = useStoreSelector((state) => state.chatList);
+  useEffect(() => {
+    getAllUsers().then((res) => {
+      // @ts-ignore
+      setUsers(res.data);
+    });
+  }, []);
+  const onSelectUser = (user: UserType) => {
+    chatList.push(user);
+    dispatch(selectChatAction(user));
+    dispatch(addChatList(chatList));
+    navigate('/chat');
+  };
+  return (
+    <List header="用户列表">
+      {users.length !== 0 && users.map((user) => (
+        <List.Item
+          key={user.name}
+          onClick={() => onSelectUser(user)}
+          prefix={(
+            <Image
+              src={user.avatar || ''}
+              style={{ borderRadius: 20 }}
+              fit="cover"
+              width={40}
+              height={40}
+            />
+          )}
+          description={user.description}
+        >
+          {user.name}
+        </List.Item>
+      ))}
+    </List>
+  );
+};
+export default Contact;
 
-async function mockRequest() {
-    if (count >= 5) {
-        return []
-    }
-    count++
-    return [
-        'L',
-        'M',
-        'N',
-        'O',
-        'P',
-        'Q',
-    ]
-}
-
-const Contact:FC=()=>{
-    const [data, setData] = useState<string[]>([])
-    const [hasMore, setHasMore] = useState(true)
-    async function loadMore() {
-        const append = await mockRequest()
-        setData(val => [...val, ...append])
-        setHasMore(append.length > 0)
-    }
-
-    const doSearch = useCallback(
-            () => {
-                setData([])
-                setHasMore(true)
-                loadMore()
-            },
-        []
-    )
-
-    useEffect(() => {
-        doSearch()
-    }, [doSearch])
-
-    return <>
-        <div >
-            <div >
-                <SearchBar />
-            </div>
-            <div >
-                <Button size='small' color='primary' onClick={doSearch}>
-                    搜索
-                </Button>
-            </div>
-        </div>
-        {data.length > 0 ? (
-            <>
-                <List>
-                    {data.map((item, index) => (
-                        <List.Item key={index}>{item}</List.Item>
-                    ))}
-                </List>
-                <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
-            </>
-        ) : (
-            <div >
-                <div >
-                    <DotLoading />
-                </div>
-                正在拼命加载数据
-            </div>
-        )}
-    </>
-}
-export default Contact
+// const users = [
+//   {
+//       id:'xdsafe',
+//   avatar:
+//     'https://images.unsplash.com/photo-1548532928-b34e3be62fc6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+//   name: 'Novalee Spicer',
+//   description: 'Deserunt dolor ea eaque eos',
+// },
+//   {
+//       id:'xdsafe',
+//   avatar:
+//     'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9',
+//   name: 'Sara Koivisto',
+//   description: 'Animi eius expedita, explicabo',
+// },
+// {
+//       id:'xdsafe',
+//   avatar:
+//     'https://images.unsplash.com/photo-1542624937-8d1e9f53c1b9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+//   name: 'Marco Gregg',
+//   description: 'Ab animi cumque eveniet ex harum nam odio omnis',
+// },
+// {
+//       id:'xdsafe',
+//   avatar:
+//     'https://images.unsplash.com/photo-1546967191-fdfb13ed6b1e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+//   name: 'Edith Koenig',
+//   description: 'Commodi earum exercitationem id numquam vitae',
+// },
+// ]

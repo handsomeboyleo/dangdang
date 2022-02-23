@@ -44,3 +44,39 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+Article on how to install mongodb on apple m1 using homebrew
+
+Install homebrew from https://brew.sh/
+
+Install xcode command line using
+
+xcode-select --install
+
+Now to install mongodb use
+
+brew tap mongodb/brew
+
+brew install mongodb-community@5.0
+
+To check if mongodb has been installed use
+
+mongo --version
+
+to start mongoDB as macOS service use
+
+brew services start mongodb-community@5.0
+
+and to stop mongoDB to run as a background service use
+
+brew services stop mongodb-community@5.0
+
+Or, if you don't want/need a background service you can just run:
+
+mongod --config /opt/homebrew/etc/mongod.conf
+
+To run mongodb commands, open a new table and run mongo
+
+To check your databases run show dbs
+
+Full documentation here: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
