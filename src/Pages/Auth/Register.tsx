@@ -2,10 +2,26 @@ import React, { FC, useState } from 'react';
 import { Button, Form, Input } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { register } from '../../API/account';
 import { detectLoginAction } from '../../Redux/actions';
 import { UserType } from '../../Types/accountTypes';
+import CustomUploadButton from '../../Components/AvatorUpload';
 
+const StyledContainer = styled.div`
+  display:flex;
+  flex-direction:column;
+  flex: 1;
+  justify-content: center;
+  background-color:#FFFFFF
+`;
+const StyledButtonArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content:space-around;
+  margin:50px 10px;
+  height:200px;
+`;
 interface ResRegisterType extends UserType{}
 
 interface RegisterProps{
@@ -16,10 +32,16 @@ const Register:FC <RegisterProps> = ({ change }) => {
   const navigate = useNavigate();
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
+  const [userName, setUserName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [avatar, setAvatar] = useState('');
   const onRegister = async () => {
     const data = {
       email: account,
       password,
+      phoneNumber,
+      name: userName,
+      avatar,
       // id:'nfdiaushfefew',
       // name:'dingdingTest',
       // phoneNumber: 1234567890,
@@ -38,16 +60,28 @@ const Register:FC <RegisterProps> = ({ change }) => {
   };
 
   return (
-    <Form layout="horizontal">
-      <Form.Item label="账号" name="email">
-        <Input placeholder="请输入email" value={account} onChange={setAccount} type="email" clearable />
-      </Form.Item>
-      <Form.Item label="密码" name="password">
-        <Input placeholder="请输入密码" value={password} onChange={setPassword} clearable type="password" />
-      </Form.Item>
-      <Button onClick={onRegister}>注册</Button>
-      <Button onClick={() => change(true)}>登陆</Button>
-    </Form>
+    <StyledContainer>
+      <CustomUploadButton onImg={setAvatar} />
+      <Form layout="horizontal" style={{ marginTop: 20 }}>
+        <Form.Item label="邮箱" required name="email">
+          <Input placeholder="请输入email" value={account} onChange={setAccount} type="email" clearable />
+        </Form.Item>
+        <Form.Item label="密码" name="password" required>
+          <Input placeholder="请输入密码" value={password} onChange={setPassword} clearable type="password" />
+        </Form.Item>
+        <Form.Item label="用户名">
+          <Input clearable placeholder="xxx" value={userName} onChange={setUserName} />
+        </Form.Item>
+        <Form.Item label="手机号">
+          <Input clearable placeholder="1234567890" value={phoneNumber} onChange={setPhoneNumber} type="tel" />
+        </Form.Item>
+      </Form>
+      <StyledButtonArea>
+        <Button block color="primary" shape="rounded" onClick={onRegister} disabled={!password || !account}>注册</Button>
+        <Button block color="primary" shape="rounded" onClick={() => change(true)}>登陆</Button>
+      </StyledButtonArea>
+    </StyledContainer>
+
   );
 };
 export default Register;

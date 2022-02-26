@@ -67,16 +67,16 @@ const SignIn:FC<SignInProps> = ({ change }) => {
         <Form.Item label="密码" name="password">
           <Input placeholder="请输入密码" value={password} onChange={setPassword} clearable type="password" />
         </Form.Item>
-        <StyledButtonArea>
-          <Button disabled={!password || !account} shape="rounded" block color="primary" onClick={onSignIn}>
-            登陆
-          </Button>
-          <Button block shape="rounded" onClick={() => change(false)} color="primary">
-            注册
-          </Button>
-          <Button block onClick={test}>测试</Button>
-        </StyledButtonArea>
       </Form>
+      <StyledButtonArea>
+        <Button disabled={!password || !account} shape="rounded" block color="primary" onClick={onSignIn}>
+          登陆
+        </Button>
+        <Button block shape="rounded" onClick={() => change(false)} color="primary">
+          注册
+        </Button>
+        <Button block onClick={test}>测试</Button>
+      </StyledButtonArea>
     </StyledContainer>
   );
 };

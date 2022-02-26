@@ -12,7 +12,7 @@ const SuperSocketProvider: FC = ({ children }) => {
   const authState = useStoreSelector((state) => state.authState);
   const msg = useStoreSelector((state) => state.newMessages);
   const ss = superSocket;
-  const ws = ss.init(wsBaseUrl + authState.userInfo._id);
+  const ws = ss.init(wsBaseUrl + authState.userInfo.id);
   if (ws) {
     ws.onopen = () => {
       console.info(`%c-- ${authState.userInfo.name} websocket connected --`, 'color:green');
@@ -36,7 +36,7 @@ const SuperSocketProvider: FC = ({ children }) => {
       }
     };
   } else {
-    ss.init(wsBaseUrl + authState.userInfo._id);
+    ss.init(wsBaseUrl + authState.userInfo.id);
   }
 
   return <>{children}</>;

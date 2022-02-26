@@ -51,7 +51,7 @@ interface SingleMessageProps {
 const SingleMessage: FC<SingleMessageProps> = ({ user, msg }) => {
   const [right, setRight] = useState(false);
   const auth = useStoreSelector((s) => s.authState);
-  const userId = auth.userInfo._id;
+  const userId = auth.userInfo.id;
   const msgId = msg.send;
   useEffect(() => {
     if (msgId === userId) {

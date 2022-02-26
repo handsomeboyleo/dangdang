@@ -6,7 +6,7 @@ import { useStoreSelector } from '../../Redux/selector';
 import SingleMessage from '../../Components/SingleMessage';
 import { MessageType } from './type';
 import { superSocket } from '../../Utils/superSocket';
-import { sendMessage } from '../../API/chat';
+import { getUserChat, sendMessage } from '../../API/chat';
 
 const StyledChatContainer = styled.div`
   width: 100%;
@@ -51,7 +51,19 @@ const Chat: FC = () => {
       dialog.scrollTop = dialog.scrollHeight;
     }
   };
+
+  const getMsg = async () => {
+    await getUserChat({
+      send: auth.userInfo.id,
+      receive: chatUser.id,
+    }).then((res) => {
+      if (res.code === 200) {
+        setMsgList(res.data as MessageType[]);
+      }
+    });
+  };
   useEffect(() => {
+    getMsg();
     const dialog = document.getElementById('dialog');
 
     if (dialog) {
@@ -71,15 +83,15 @@ const Chat: FC = () => {
     const data = {
       user: 'dingding',
       msg: value,
-      target: chatUser._id,
+      target: chatUser.id,
     };
     const msg = {
-      id: auth.userInfo._id + now.getTime(),
+      id: auth.userInfo.id + now.getTime(),
       type: 'MESSAGE',
-      send: auth.userInfo._id,
-      receive: chatUser._id,
+      send: auth.userInfo.id,
+      receive: chatUser.id,
       msg: value,
-      sendTime: `${Date}`,
+      sendTime: `${now.getTime()}`,
       isRead: false,
     };
     ws.send(JSON.stringify(data));
@@ -94,7 +106,11 @@ const Chat: FC = () => {
     localStorage.setItem(`CHAT_${chatUser.name}`, JSON.stringify(msgList));
     navigate('/messages');
   };
-
+  // const handleKeyDown = async (e:React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.keyCode === 13) {
+  //     await sendMsg();
+  //   }
+  // };
   return (
     <StyledChatContainer id="container">
       <NavBar onBack={back} back="返回">
