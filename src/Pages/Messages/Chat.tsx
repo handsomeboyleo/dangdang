@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Button, NavBar, TextArea } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 import { useStoreSelector } from '../../Redux/selector';
 import SingleMessage from '../../Components/SingleMessage';
 import { MessageType } from './type';
@@ -39,10 +40,10 @@ const Chat: FC = () => {
   const navigate = useNavigate();
   const ws = superSocket.socket;
   const chatUser = useStoreSelector((state) => state.selectChat);
-  const localMsgs = localStorage.getItem(`CHAT_${chatUser.name}`);
-  const localChat = localMsgs && JSON.parse(localMsgs) as MessageType[];
+  // const localMsgs = localStorage.getItem(`CHAT_${chatUser.name}`);
+  // const localChat = localMsgs && JSON.parse(localMsgs) as MessageType[];
   const [value, setValue] = useState('');
-  const [msgList, setMsgList] = useState<MessageType[]>(localChat || []);
+  const [msgList, setMsgList] = useState<MessageType[]>([]);
   const auth = useStoreSelector((state) => state.authState);
   const scrollToBottom = () => {
     const dialog = document.getElementById('dialog');
@@ -71,39 +72,35 @@ const Chat: FC = () => {
     }
   }, []);
 
-  ws.onmessage = async (msg) => {
-    const message = JSON.parse(msg.data) as MessageType;
-    setMsgList([...msgList, message]);
-    console.log(msgList);
-    scrollToBottom();
-  };
+  if (ws) {
+    ws.onmessage = async (msg) => {
+      const message = JSON.parse(msg.data) as MessageType;
+      setMsgList([...msgList, message]);
+      scrollToBottom();
+    };
+  }
 
   const sendMsg = async () => {
-    const now = new Date();
-    const data = {
-      user: 'dingding',
-      msg: value,
-      target: chatUser.id,
-    };
+    const nowTime = `${dayjs().valueOf()}`;
     const msg = {
-      id: auth.userInfo.id + now.getTime(),
+      id: auth.userInfo.id + nowTime,
       type: 'MESSAGE',
       send: auth.userInfo.id,
       receive: chatUser.id,
       msg: value,
-      sendTime: `${now.getTime()}`,
+      sendTime: nowTime,
       isRead: false,
     };
-    ws.send(JSON.stringify(data));
+    console.log(msg);
+    ws.send(JSON.stringify(msg));
     await sendMessage(msg);
     setMsgList([...msgList, msg]);
-    console.log(msgList);
     scrollToBottom();
     setValue('');
   };
 
   const back = () => {
-    localStorage.setItem(`CHAT_${chatUser.name}`, JSON.stringify(msgList));
+    // localStorage.setItem(`CHAT_${chatUser.name}`, JSON.stringify(msgList));
     navigate('/messages');
   };
   // const handleKeyDown = async (e:React.KeyboardEvent<HTMLInputElement>) => {

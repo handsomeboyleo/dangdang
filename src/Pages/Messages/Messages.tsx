@@ -25,7 +25,7 @@ const Messages: FC = () => {
   };
   return (
     <MessageContainer>
-      <List header="用户列表">
+      <List header="最近聊天">
         {chatList.map((user) => (
           <List.Item
             key={user.name}

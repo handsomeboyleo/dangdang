@@ -2,10 +2,18 @@ import React, { FC, useEffect, useState } from 'react';
 import { Image, List } from 'antd-mobile';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { addChatList, selectChatAction } from '../../Redux/actions';
 import { useStoreSelector } from '../../Redux/selector';
 import { UserType } from '../../Types/accountTypes';
 import { getAllUsers } from '../../API/account';
+
+const MessageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display:flex;
+  flex-direction: column;
+`;
 
 const Contact: FC = () => {
   const dispatch = useDispatch();
@@ -25,26 +33,29 @@ const Contact: FC = () => {
     navigate('/chat');
   };
   return (
-    <List header="用户列表">
-      {users.length !== 0 && users.map((user) => (
-        <List.Item
-          key={user.name}
-          onClick={() => onSelectUser(user)}
-          prefix={(
-            <Image
-              src={user.avatar || ''}
-              style={{ borderRadius: 20 }}
-              fit="cover"
-              width={40}
-              height={40}
-            />
+    <MessageContainer>
+      <List header="用户列表">
+        {users.length !== 0 && users.map((user) => (
+          <List.Item
+            key={user.name}
+            onClick={() => onSelectUser(user)}
+            prefix={(
+              <Image
+                src={user.avatar || ''}
+                style={{ borderRadius: 20 }}
+                fit="cover"
+                width={40}
+                height={40}
+              />
           )}
-          description={user.description}
-        >
-          {user.name}
-        </List.Item>
-      ))}
-    </List>
+            description={user.description}
+          >
+            {user.name}
+          </List.Item>
+        ))}
+      </List>
+    </MessageContainer>
+
   );
 };
 export default Contact;
