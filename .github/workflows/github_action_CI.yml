@@ -1,0 +1,31 @@
+name: Build & Deployment
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout    
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm install
+        
+      - name: Build Project
+        run: npm run build
+      
+      # 利用action把build好的文件上传到服务器./路径下,需要确认此目录已在服务端创建
+      - name: deploy file to server
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:  
+          username: 'admin'   #ssh user name
+          server: '${{ secrets.SERVER_IP }}' #引用之前创建好的secret
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }} #引用之前创建好的secret
+          local_path: './build/*'  # 对应我们项目build的文件夹路径
+          remote_path: './'
