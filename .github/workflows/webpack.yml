@@ -1,0 +1,24 @@
+name: NodeJS with Webpack
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Project
+      run: |
+        npm install
+        
+    - name: Build Project
+      run: |
+        npm run build
+        
+    - name: Deploy Project
+      run: |
+        
