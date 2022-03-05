@@ -30,14 +30,16 @@ jobs:
           local_path: './build/*'  # 对应我们项目build的文件夹路径
           remote_path: '/'
           
-#       - name: Deploy
-#         uses: milanmk/actions-file-deployer@1.10
-#         with: 
-#           remote-host: '${{ secrets.SERVER_IP }}'
-#           remote-user: '${{ secrets.SERVER_NAME }}'
-#           remote-password: '${{ secrets.SERVER_PASSWORD }}'
-#            # Local path to repository
-#           local-path: './build/*' # default is .
-#           # Remote path on host
-#           remote-path: './' # default is .
+      - name: Deploy
+        uses: LubricantJam/SFTP-Deploy-Action@v2.1
+        with: 
+          server: '${{ secrets.SERVER_IP }}'
+          username: '${{ secrets.SERVER_NAME }}'
+          ssh_password: '${{ secrets.SERVER_PASSWORD }}'
+           # Local path to repository
+          local-path: './build/*' # default is .
+          # Remote path on host
+          remote-path: '/' # default is .
+          ssh_command: exit
+          compress: false
         
