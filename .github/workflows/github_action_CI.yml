@@ -21,14 +21,14 @@ jobs:
         run: npm run build
       
       # 利用action把build好的文件上传到服务器./路径下,需要确认此目录已在服务端创建
-      - name: Deploy
-        uses: wlixcc/SFTP-Deploy-Action@v1.0
-        with:  
-          username: '${{ secrets.SERVER_NAME }}'   #ssh user name
-          server: '${{ secrets.SERVER_IP }}' #引用之前创建好的secret
-          ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY }}' #引用之前创建好的secret
-          local_path: './build/*'  # 对应我们项目build的文件夹路径
-          remote_path: '/'
+#       - name: Deploy
+#         uses: wlixcc/SFTP-Deploy-Action@v1.0
+#         with:  
+#           username: '${{ secrets.SERVER_NAME }}'   #ssh user name
+#           server: '${{ secrets.SERVER_IP }}' #引用之前创建好的secret
+#           ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY }}' #引用之前创建好的secret
+#           local_path: './build/*'  # 对应我们项目build的文件夹路径
+#           remote_path: '/'
           
       - name: Deploy
         uses: LubricantJam/SFTP-Deploy-Action@v2.1
