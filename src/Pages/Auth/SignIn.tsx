@@ -1,10 +1,14 @@
-import React, { FC, useState } from 'react';
-import { Button, Form, Input } from 'antd-mobile';
+import React, { FC, useState, useEffect } from 'react';
+import {
+  Button, Form, Input,
+} from 'antd-mobile';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { signIn } from '../../API/account';
+import { getUserInfo, signIn, tokenSignIn } from '../../API/account';
 import { detectLoginAction } from '../../Redux/actions';
+import { AppConfig } from '../../config';
+import { UserType } from '../../Types/accountTypes';
 
 const StyledContainer = styled.div`
   display:flex;
@@ -22,6 +26,29 @@ const StyledButtonArea = styled.div`
   height:200px;
 `;
 
+const TokenSignIn:FC = ({ children }) => {
+  const token = localStorage.getItem('token');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const onTokenLogin = async () => {
+    await tokenSignIn().then((res) => {
+      if (res.code === 200) {
+        dispatch(detectLoginAction({
+          isLogin: true,
+          userInfo: res.data as UserType,
+        }));
+        navigate('/home', { replace: true });
+      }
+    });
+  };
+  useEffect(() => {
+    if (token) {
+      AppConfig.set('token', token);
+      onTokenLogin();
+    }
+  }, []);
+  return <>{ children }</>;
+};
 interface SignInProps{
     change: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -30,6 +57,7 @@ const SignIn:FC<SignInProps> = ({ change }) => {
   const navigate = useNavigate();
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
+  const [isLogin, setIsLogin] = useState(false);
   const onSignIn = async () => {
     const data = {
       email: account,
@@ -38,46 +66,43 @@ const SignIn:FC<SignInProps> = ({ change }) => {
     await signIn(data).then((res) => {
       if (res.code === 200) {
         // @ts-ignore
-        dispatch(detectLoginAction({ isLogin: true, userInfo: res.data }));
-        navigate('/home', { replace: true });
+        AppConfig.set('token', res.data.token);
+        setIsLogin(true);
       }
     });
   };
-  const test = () => {
-    dispatch(detectLoginAction({
-      isLogin: true,
-      userInfo: {
-        id: 'xxxxx1',
-        name: 'test',
-        email: 'test@example.com',
-        phoneNumber: '1234567890',
-        gender: 'male',
-        age: 36,
-        description: 'hello, Im robot',
-      },
-    }));
-    navigate('/home', { replace: true });
-  };
+  useEffect(() => {
+    if (isLogin) {
+      getUserInfo().then((res) => {
+        dispatch(detectLoginAction({
+          isLogin: true,
+          userInfo: res.data as UserType,
+        }));
+        navigate('/home', { replace: true });
+      });
+    }
+  }, [isLogin]);
   return (
-    <StyledContainer>
-      <Form layout="horizontal">
-        <Form.Item label="用户名" name="username">
-          <Input placeholder="请输入用户名" value={account} onChange={setAccount} clearable />
-        </Form.Item>
-        <Form.Item label="密码" name="password">
-          <Input placeholder="请输入密码" value={password} onChange={setPassword} clearable type="password" />
-        </Form.Item>
-      </Form>
-      <StyledButtonArea>
-        <Button disabled={!password || !account} shape="rounded" block color="primary" onClick={onSignIn}>
-          登陆
-        </Button>
-        <Button block shape="rounded" onClick={() => change(false)} color="primary">
-          注册
-        </Button>
-        <Button block onClick={test}>测试</Button>
-      </StyledButtonArea>
-    </StyledContainer>
+    <TokenSignIn>
+      <StyledContainer>
+        <Form layout="horizontal">
+          <Form.Item label="用户名" name="username">
+            <Input placeholder="请输入用户名" value={account} onChange={setAccount} clearable />
+          </Form.Item>
+          <Form.Item label="密码" name="password">
+            <Input placeholder="请输入密码" value={password} onChange={setPassword} clearable type="password" />
+          </Form.Item>
+        </Form>
+        <StyledButtonArea>
+          <Button disabled={!password || !account} shape="rounded" block color="primary" onClick={onSignIn}>
+            登陆
+          </Button>
+          <Button block shape="rounded" onClick={() => change(false)} color="primary">
+            注册
+          </Button>
+        </StyledButtonArea>
+      </StyledContainer>
+    </TokenSignIn>
   );
 };
 
