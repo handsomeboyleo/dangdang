@@ -1,12 +1,13 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Button, Form, Input } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { register } from '../../API/account';
+import { register, getUserInfo } from '../../API/account';
 import { detectLoginAction } from '../../Redux/actions';
 import { UserType } from '../../Types/accountTypes';
 import CustomUploadButton from '../../Components/AvatorUpload';
+import { AppConfig } from '../../config';
 
 const StyledContainer = styled.div`
   display:flex;
@@ -35,6 +36,7 @@ const Register:FC <RegisterProps> = ({ change }) => {
   const [userName, setUserName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [avatar, setAvatar] = useState('');
+  const [isLogin, setIsLogin] = useState(false);
   const onRegister = async () => {
     const data = {
       email: account,
@@ -53,12 +55,23 @@ const Register:FC <RegisterProps> = ({ change }) => {
 
     await register<ResRegisterType>(data).then((res) => {
       if (res.code === 200) {
-        dispatch(detectLoginAction({ userInfo: res.data, isLogin: true }));
-        navigate('/home', { replace: true });
+        // @ts-ignore
+        AppConfig.set('token', res.data.token);
+        setIsLogin(true);
       }
     });
   };
-
+  useEffect(() => {
+    if (isLogin) {
+      getUserInfo().then((res) => {
+        dispatch(detectLoginAction({
+          isLogin: true,
+          userInfo: res.data as UserType,
+        }));
+        navigate('/home', { replace: true });
+      });
+    }
+  }, [isLogin]);
   return (
     <StyledContainer>
       <CustomUploadButton onImg={setAvatar} />

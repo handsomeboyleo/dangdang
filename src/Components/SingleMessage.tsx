@@ -1,9 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { Avatar } from 'antd-mobile';
 import { MessageType } from '../Pages/Messages/type';
 import { UserType } from '../Types/accountTypes';
-import { useStoreSelector } from '../Redux/selector';
 
 const MsgContainer = styled.div`
   display: flex;
@@ -44,34 +43,24 @@ const MsgContent = styled.div`
 `;
 
 interface SingleMessageProps {
+    chatUser: UserType,
     user: UserType,
     msg: MessageType
 }
 
-const SingleMessage: FC<SingleMessageProps> = ({ user, msg }) => {
-  const [right, setRight] = useState(false);
-  const auth = useStoreSelector((s) => s.authState);
-  const userId = auth.userInfo.id;
-  const msgId = msg.send;
-  useEffect(() => {
-    if (msgId === userId) {
-      setRight(true);
-    }
-  }, [msgId, userId]);
-  return (
-    <MsgContainer style={{ flexDirection: `${right ? 'row-reverse' : 'row'}` }}>
-      <MsgUser>
-        <Avatar
-          src={right ? auth.userInfo.avatar : user.avatar}
-          style={{ borderRadius: 25 }}
-          fit="cover"
-        />
-      </MsgUser>
-      <MsgBox>
-        <MsgContent>{msg.msg}</MsgContent>
-      </MsgBox>
-    </MsgContainer>
-  );
-};
+const SingleMessage: FC<SingleMessageProps> = ({ chatUser, user, msg }) => (
+  <MsgContainer style={{ flexDirection: `${msg.send === user.id ? 'row-reverse' : 'row'}` }}>
+    <MsgUser>
+      <Avatar
+        src={msg.send === user.id ? user.avatar : chatUser.avatar}
+        style={{ borderRadius: 25 }}
+        fit="cover"
+      />
+    </MsgUser>
+    <MsgBox>
+      <MsgContent>{msg.msg}</MsgContent>
+    </MsgBox>
+  </MsgContainer>
+);
 
 export default SingleMessage;

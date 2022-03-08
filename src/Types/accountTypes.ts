@@ -5,6 +5,6 @@ export type UserType = {
     phoneNumber?:string;
     age?:number;
     gender?:string;
-    avatar?:string;
+    avatar:string;
     description?:string;
 }

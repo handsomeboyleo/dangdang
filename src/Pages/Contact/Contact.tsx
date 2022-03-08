@@ -27,9 +27,8 @@ const Contact: FC = () => {
     });
   }, []);
   const onSelectUser = (user: UserType) => {
-    chatList.push(user);
     dispatch(selectChatAction(user));
-    dispatch(addChatList(chatList));
+    dispatch(addChatList([...chatList, user]));
     navigate('/chat');
   };
   return (

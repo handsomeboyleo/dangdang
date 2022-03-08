@@ -12,6 +12,7 @@ export const fakeMsgs = (user: UserType) => {
       type: 'dsadfcdsa',
       sendTime: '123123',
       isRead: false,
+      belong: 'xxx',
     });
   }
   localStorage.setItem(`CHAT_${user.name}`, JSON.stringify(baseMsg));

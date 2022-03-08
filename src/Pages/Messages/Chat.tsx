@@ -47,7 +47,6 @@ const Chat: FC = () => {
   const auth = useStoreSelector((state) => state.authState);
   const scrollToBottom = () => {
     const dialog = document.getElementById('dialog');
-
     if (dialog) {
       dialog.scrollTop = dialog.scrollHeight;
     }
@@ -55,36 +54,21 @@ const Chat: FC = () => {
 
   const getMsg = async () => {
     await getUserChat({
-      send: auth.userInfo.id,
-      receive: chatUser.id,
+      send: auth.userInfo.name,
+      receive: chatUser.name,
     }).then((res) => {
       if (res.code === 200) {
         setMsgList(res.data as MessageType[]);
       }
     });
   };
-  useEffect(() => {
-    getMsg();
-    const dialog = document.getElementById('dialog');
-
-    if (dialog) {
-      dialog.scrollTop = dialog.scrollHeight;
-    }
-  }, []);
-
-  if (ws) {
-    ws.onmessage = async (msg) => {
-      const message = JSON.parse(msg.data) as MessageType;
-      setMsgList([...msgList, message]);
-      scrollToBottom();
-    };
-  }
 
   const sendMsg = async () => {
     const nowTime = `${dayjs().valueOf()}`;
     const msg = {
       id: auth.userInfo.id + nowTime,
       type: 'MESSAGE',
+      belong: `${auth.userInfo.name}${chatUser.name}`,
       send: auth.userInfo.id,
       receive: chatUser.id,
       msg: value,
@@ -108,6 +92,25 @@ const Chat: FC = () => {
   //     await sendMsg();
   //   }
   // };
+  useEffect(() => {
+    getMsg();
+    const dialog = document.getElementById('dialog');
+    if (dialog) {
+      dialog.scrollTop = dialog.scrollHeight;
+    }
+  }, []);
+  useEffect(() => {
+    if (ws) {
+      ws.onmessage = async (msg) => {
+        const message = JSON.parse(msg.data) as MessageType;
+        if (message.type === 'MESSAGE') {
+          setMsgList([...msgList, message]);
+          console.log(msgList);
+          scrollToBottom();
+        }
+      };
+    }
+  }, []);
   return (
     <StyledChatContainer id="container">
       <NavBar onBack={back} back="返回">
@@ -117,8 +120,9 @@ const Chat: FC = () => {
       </NavBar>
       <StyledScroll id="dialog">
         {
-                msgList.map((item) => <SingleMessage key={item.id} user={chatUser} msg={item} />)
-            }
+          // eslint-disable-next-line react/no-array-index-key
+          msgList.map((item, idx) => <SingleMessage key={idx} user={auth.userInfo} chatUser={chatUser} msg={item} />)
+        }
       </StyledScroll>
       <StyledTextArea>
         <TextArea

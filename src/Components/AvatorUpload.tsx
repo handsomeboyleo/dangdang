@@ -45,7 +45,7 @@ const CustomUploadButton: FC<CustomUploadButtonProps> = ({ onImg }) => {
       maxCount={1}
       preview={false}
       deletable={false}
-      capture
+      // capture
     >
       <div
         style={{
