@@ -1,5 +1,5 @@
 import { Image, List } from 'antd-mobile';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -18,8 +18,10 @@ const MessageContainer = styled.div`
 const Messages: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const chatList = useStoreSelector((state) => state.chatList) as chatListType;
-  const onChat = (user:UserType) => {
+  const storeChatList = useStoreSelector((state) => state.chatList) as chatListType;
+
+  const chatList = useMemo(() => storeChatList.filter((item, idx) => storeChatList.findIndex((chat) => chat.id === item.id) === idx), [storeChatList]);
+  const onChat = (user: UserType) => {
     dispatch(selectChatAction(user));
     navigate('/chat');
   };

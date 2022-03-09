@@ -46,7 +46,10 @@ const chatList = (state = [], action: ActionTypes) => {
 const newMessages = (state = { totalUnRead: 0, newMsgList: [] }, action:ActionTypes) => {
   switch (action.type) {
     case 'NEW_MSG':
-      return action.data;
+      return {
+        totalUnread: state.totalUnRead + 1,
+        newMsgList: [...state.newMsgList, action.data],
+      };
     default:
       return state;
   }

@@ -61,6 +61,7 @@ const Register:FC <RegisterProps> = ({ change }) => {
       }
     });
   };
+
   useEffect(() => {
     if (isLogin) {
       getUserInfo().then((res) => {
@@ -71,7 +72,8 @@ const Register:FC <RegisterProps> = ({ change }) => {
         navigate('/home', { replace: true });
       });
     }
-  }, [isLogin]);
+  }, [dispatch, isLogin, navigate]);
+
   return (
     <StyledContainer>
       <CustomUploadButton onImg={setAvatar} />

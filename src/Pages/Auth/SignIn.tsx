@@ -46,6 +46,7 @@ const TokenSignIn:FC = ({ children }) => {
       AppConfig.set('token', token);
       onTokenLogin();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <>{ children }</>;
 };
@@ -81,7 +82,7 @@ const SignIn:FC<SignInProps> = ({ change }) => {
         navigate('/home', { replace: true });
       });
     }
-  }, [isLogin]);
+  }, [dispatch, isLogin, navigate]);
   return (
     <TokenSignIn>
       <StyledContainer>

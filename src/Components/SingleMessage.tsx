@@ -11,16 +11,12 @@ const MsgContainer = styled.div`
   margin-top: 5px;
 `;
 
-const MsgUser = styled.div`
-  width: 44px;
-  height: 44px;
-  border-radius: 22px;
-  margin: 5px 10px 5px 10px;
-  line-height: 50px;
-  text-align: center;
-  color: white;
+const MsgUser = styled(Avatar)`
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  margin: 0 10px 5px 10px;
   box-shadow: 0px 0px 5px 1px lightgrey;
-  font-weight: bold;
 `;
 
 const MsgBox = styled.div`
@@ -32,7 +28,7 @@ const MsgBox = styled.div`
 const MsgContent = styled.div`
   background-color: floralwhite;
   border-radius: 10px;
-  min-height: 30px;
+  min-height: 23px;
   line-height: 23px;
   text-align: left;
   margin-top: 5px;
@@ -50,13 +46,10 @@ interface SingleMessageProps {
 
 const SingleMessage: FC<SingleMessageProps> = ({ chatUser, user, msg }) => (
   <MsgContainer style={{ flexDirection: `${msg.send === user.id ? 'row-reverse' : 'row'}` }}>
-    <MsgUser>
-      <Avatar
-        src={msg.send === user.id ? user.avatar : chatUser.avatar}
-        style={{ borderRadius: 25 }}
-        fit="cover"
-      />
-    </MsgUser>
+    <MsgUser
+      src={msg.send === user.id ? user.avatar : chatUser.avatar}
+      fit="cover"
+    />
     <MsgBox>
       <MsgContent>{msg.msg}</MsgContent>
     </MsgBox>

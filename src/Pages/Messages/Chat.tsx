@@ -1,13 +1,18 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, {
+  FC, useState, useEffect,
+} from 'react';
 import { Button, NavBar, TextArea } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
+import { useDispatch } from 'react-redux';
 import { useStoreSelector } from '../../Redux/selector';
-import SingleMessage from '../../Components/SingleMessage';
-import { MessageType } from './type';
 import { superSocket } from '../../Utils/superSocket';
-import { getUserChat, sendMessage } from '../../API/chat';
+import { sendMessage, getUserChat } from '../../API/chat';
+import { newMessage } from '../../Redux/actions';
+import ChatMsgList from './ChatMsgList';
+import { UserType } from '../../Types/accountTypes';
+import { MessageType } from './type';
 
 const StyledChatContainer = styled.div`
   width: 100%;
@@ -15,11 +20,7 @@ const StyledChatContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const StyledScroll = styled.div`
-  flex: 1;
-  overflow: auto;
-  padding-bottom: 5px;
-`;
+
 const StyledTextArea = styled.div`
   width:100%;
   max-height: 100px;
@@ -38,24 +39,18 @@ const StyledSendButton = styled(Button)`
 
 const Chat: FC = () => {
   const navigate = useNavigate();
-  const ws = superSocket.socket;
-  const chatUser = useStoreSelector((state) => state.selectChat);
-  // const localMsgs = localStorage.getItem(`CHAT_${chatUser.name}`);
-  // const localChat = localMsgs && JSON.parse(localMsgs) as MessageType[];
+  const dispatch = useDispatch();
   const [value, setValue] = useState('');
   const [msgList, setMsgList] = useState<MessageType[]>([]);
+  const chatUser = useStoreSelector((state) => state.selectChat);
   const auth = useStoreSelector((state) => state.authState);
-  const scrollToBottom = () => {
-    const dialog = document.getElementById('dialog');
-    if (dialog) {
-      dialog.scrollTop = dialog.scrollHeight;
-    }
-  };
+  const ws = superSocket.socket;
+  const currentChatUser = chatUser.name;
 
   const getMsg = async () => {
     await getUserChat({
       send: auth.userInfo.name,
-      receive: chatUser.name,
+      receive: currentChatUser,
     }).then((res) => {
       if (res.code === 200) {
         setMsgList(res.data as MessageType[]);
@@ -75,68 +70,44 @@ const Chat: FC = () => {
       sendTime: nowTime,
       isRead: false,
     };
-    console.log(msg);
     ws.send(JSON.stringify(msg));
     await sendMessage(msg);
-    setMsgList([...msgList, msg]);
-    scrollToBottom();
+    dispatch(newMessage(msg));
     setValue('');
   };
 
   const back = () => {
-    // localStorage.setItem(`CHAT_${chatUser.name}`, JSON.stringify(msgList));
     navigate('/messages');
   };
-  // const handleKeyDown = async (e:React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.keyCode === 13) {
-  //     await sendMsg();
-  //   }
-  // };
+
   useEffect(() => {
     getMsg();
-    const dialog = document.getElementById('dialog');
-    if (dialog) {
-      dialog.scrollTop = dialog.scrollHeight;
-    }
-  }, []);
-  useEffect(() => {
-    if (ws) {
-      ws.onmessage = async (msg) => {
-        const message = JSON.parse(msg.data) as MessageType;
-        if (message.type === 'MESSAGE') {
-          setMsgList([...msgList, message]);
-          console.log(msgList);
-          scrollToBottom();
-        }
-      };
-    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <StyledChatContainer id="container">
       <NavBar onBack={back} back="返回">
         {
-            chatUser.name
+          currentChatUser
         }
       </NavBar>
-      <StyledScroll id="dialog">
-        {
-          // eslint-disable-next-line react/no-array-index-key
-          msgList.map((item, idx) => <SingleMessage key={idx} user={auth.userInfo} chatUser={chatUser} msg={item} />)
-        }
-      </StyledScroll>
+      <ChatMsgList
+        authUser={auth.userInfo as UserType}
+        currentChatUser={chatUser}
+        initMsgList={msgList}
+      />
       <StyledTextArea>
         <TextArea
           placeholder="说点什么吧..."
           value={value}
-          onChange={(val) => {
-            setValue(val);
-          }}
+          onChange={setValue}
           autoSize={{ minRows: 1, maxRows: 4 }}
         />
         <StyledSendButton
           color="success"
           block
           onClick={sendMsg}
+          disabled={value.length <= 0}
         >
           发送
         </StyledSendButton>

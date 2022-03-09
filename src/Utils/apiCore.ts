@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { Toast } from 'antd-mobile';
+import { Dialog, Toast } from 'antd-mobile';
 import { apiBaseUrl, AppConfig } from '../config';
+import { onSignOut } from '../Redux/actions';
 
 interface ResponseDataType<T> {
   code: number,
@@ -30,7 +31,22 @@ const request = (opt: RequestOptionType) => {
   });
   return instance;
 };
-const handleErrorToast = (err: ResponseDataType<any>) => {
+const handleError = (err: ResponseDataType<any>) => {
+  if (err.code === 401) {
+    const handle = Dialog.show({
+      content: '登陆信息过期，请重新登录',
+      actions: [
+        {
+          key: 'close',
+          text: '关闭',
+          onClick: () => {
+            onSignOut();
+            handle.close();
+          },
+        },
+      ],
+    });
+  }
   Toast.show({
     content: `${err.code}: ${err.msg}`,
   });
@@ -47,7 +63,7 @@ const post = async <T>(url: string, body?: any, options?: any) => new Promise<Re
   request({ auth: true, ...options }).post(url, body, options).then(
     (res) => {
       if (res.data.code !== 200) {
-        handleErrorToast(res.data);
+        handleError(res.data);
       }
       resolve(res.data);
     },
