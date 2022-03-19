@@ -11,4 +11,4 @@ export const signOut = (data: any) => api.post('/account/signOut', data);
 // 获取用户信息
 export const getUserInfo = () => api.get('/account/userInfo');
 // 获取所有用户
-export const getAllUsers = () => api.get('/account/getAllUsers');
+export const getAllUsers = <T>() => api.get<T>('/account/getAllUsers');

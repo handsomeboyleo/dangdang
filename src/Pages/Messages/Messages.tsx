@@ -21,6 +21,7 @@ const Messages: FC = () => {
   const storeChatList = useStoreSelector((state) => state.chatList) as chatListType;
 
   const chatList = useMemo(() => storeChatList.filter((item, idx) => storeChatList.findIndex((chat) => chat.id === item.id) === idx), [storeChatList]);
+
   const onChat = (user: UserType) => {
     dispatch(selectChatAction(user));
     navigate('/chat');

@@ -9,6 +9,7 @@ const StyledBody = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow:auto
 `;
 const AppLayout: React.FC = () => (
   <>

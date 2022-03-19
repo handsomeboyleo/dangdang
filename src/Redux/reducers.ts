@@ -47,7 +47,7 @@ const newMessages = (state = { totalUnRead: 0, newMsgList: [] }, action:ActionTy
   switch (action.type) {
     case 'NEW_MSG':
       return {
-        totalUnread: state.totalUnRead + 1,
+        totalUnread: 0, // state.totalUnRead + 1,
         newMsgList: [...state.newMsgList, action.data],
       };
     default:

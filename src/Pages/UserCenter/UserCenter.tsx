@@ -1,35 +1,42 @@
 import React, { FC } from 'react';
 import { Button, Image } from 'antd-mobile';
-import { useDispatch } from 'react-redux';
 
+import styled from 'styled-components';
 import { useStoreSelector } from '../../Redux/selector';
-import { AppConfig } from '../../config';
-import { detectLoginAction } from '../../Redux/actions';
-import { UserType } from '../../Types/accountTypes';
-import { superSocket } from '../../Utils/superSocket';
+import { onSignOut } from '../../Redux/actions';
+
+const UserInfoContainer = styled.div`
+  width:100%;
+  display:flex;
+  flex-direction:row;
+  height:200px
+`;
 
 const UserCenter: FC = () => {
-  const dispatch = useDispatch();
   const select = useStoreSelector((state) => state.authState);
-  const ws = superSocket.socket;
   const userInfo = select && select.userInfo;
   const signOut = async () => {
-    AppConfig.set('token', '');
-    localStorage.removeItem('token');
-    ws.close();
-    dispatch(detectLoginAction({ isLogin: false, userInfo: {} as UserType }));
+    onSignOut();
   };
   return (
-    <div>
-      <Image
-        src={userInfo.avatar || '/404'}
-        width={64}
-        height={64}
-        fit="cover"
-        style={{ borderRadius: 32 }}
-      />
-      <div>{userInfo.name}</div>
-      <Button block onClick={signOut}>退出登陆</Button>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      flex: 1,
+    }}
+    >
+      <UserInfoContainer style={{ }}>
+        <Image
+          src={userInfo.avatar || '/404'}
+          width={76}
+          height={76}
+          fit="cover"
+          style={{ borderRadius: 38 }}
+        />
+        <div style={{ alignSelf: 'center' }}>{userInfo.name}</div>
+      </UserInfoContainer>
+      <Button color="danger" block onClick={signOut}>退出登陆</Button>
     </div>
   );
 };

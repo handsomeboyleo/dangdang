@@ -1,10 +1,15 @@
 export type MessageType = {
-    id: string;
+    id?: string;
     type: string,
     belong:string,
     send: string,
     receive: string,
     sendTime: string,
     msg: string,
-    isRead: boolean
+    isRead?: boolean
+}
+export type OptionMessageType = {
+    type: string,
+    send: string,
+    msg:string
 }

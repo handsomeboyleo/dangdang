@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Image, List } from 'antd-mobile';
+import { DotLoading, Image, List } from 'antd-mobile';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -19,12 +19,17 @@ const Contact: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [users, setUsers] = useState<UserType[]>([]);
+  const [loading, setLoading] = useState<Boolean>(true);
   const chatList = useStoreSelector((state) => state.chatList);
+  const auth = useStoreSelector((state) => state.authState);
   useEffect(() => {
-    getAllUsers().then((res) => {
-      // @ts-ignore
-      setUsers(res.data);
+    getAllUsers<UserType[]>().then((res) => {
+      const list = res.data.filter((i) => i.id !== auth.userInfo.id);
+      setUsers(list);
+    }).finally(() => {
+      setLoading(false);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const onSelectUser = (user: UserType) => {
     dispatch(selectChatAction(user));
@@ -34,24 +39,26 @@ const Contact: FC = () => {
   return (
     <MessageContainer>
       <List header="用户列表">
-        {users.length !== 0 && users.map((user) => (
-          <List.Item
-            key={user.name}
-            onClick={() => onSelectUser(user)}
-            prefix={(
-              <Image
-                src={user.avatar || ''}
-                style={{ borderRadius: 20 }}
-                fit="cover"
-                width={40}
-                height={40}
-              />
+        {
+          loading ? <DotLoading color="primary" /> : users.length !== 0 && users.map((user) => (
+            <List.Item
+              key={user.name}
+              onClick={() => onSelectUser(user)}
+              prefix={(
+                <Image
+                  src={user.avatar || ''}
+                  style={{ borderRadius: 20 }}
+                  fit="cover"
+                  width={40}
+                  height={40}
+                />
           )}
-            description={user.description}
-          >
-            {user.name}
-          </List.Item>
-        ))}
+              description={user.description}
+            >
+              {user.name}
+            </List.Item>
+          ))
+}
       </List>
     </MessageContainer>
 
