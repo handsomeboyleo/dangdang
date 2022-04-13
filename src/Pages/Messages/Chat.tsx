@@ -1,14 +1,14 @@
-import React, {
-  FC, useState, useEffect,
-} from 'react';
-import { Button, NavBar, TextArea } from 'antd-mobile';
+import React, { FC, useEffect, useState } from 'react';
+import {
+  Button, NavBar, TextArea, Toast,
+} from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { useStoreSelector } from '../../Redux/selector';
-import { superSocket } from '../../Utils/superSocket';
-import { sendMessage, getUserChat } from '../../API/chat';
+import { SuperSocket } from '../../Utils/superSocket';
+import { getUserChat, sendMessage } from '../../Api/chat';
 import { newMessage } from '../../Redux/actions';
 import ChatMsgList from './ChatMsgList';
 import { UserType } from '../../Types/accountTypes';
@@ -44,7 +44,7 @@ const Chat: FC = () => {
   const [msgList, setMsgList] = useState<MessageType[]>([]);
   const chatUser = useStoreSelector((state) => state.selectChat);
   const auth = useStoreSelector((state) => state.authState);
-  const ws = superSocket.socket;
+  const ws = SuperSocket;
   const currentChatUser = chatUser.name;
 
   const getMsg = async () => {
@@ -70,10 +70,19 @@ const Chat: FC = () => {
       sendTime: nowTime,
       isRead: false,
     };
-    ws.send(JSON.stringify(msg));
-    await sendMessage(msg);
-    dispatch(newMessage(msg));
-    setValue('');
+    if (ws.status !== 'READY') {
+      Toast.show({
+        content: '连接中断',
+        icon: 'loading',
+        maskClickable: true,
+        duration: 1,
+      });
+    } else {
+      ws.socket.send(JSON.stringify(msg));
+      await sendMessage(msg);
+      dispatch(newMessage(msg));
+      setValue('');
+    }
   };
 
   const back = () => {

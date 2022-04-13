@@ -13,6 +13,7 @@ function App() {
       content.style.height = `${height}px`;
     }
   }, [height]);
+  // console.log(process.env);
   return (
     <ErrorBoundary>
       <Provider store={store}>

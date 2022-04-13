@@ -2,7 +2,7 @@ import { AppConfig } from '../config';
 import { MessageType } from '../Pages/Messages/type';
 import { UserType } from '../Types/accountTypes';
 import { chatListType } from '../Types/chatListTypes';
-import { superSocket } from '../Utils/superSocket';
+import { SuperSocket } from '../Utils/superSocket';
 import store from './store';
 
 // 包含所有的action creator
@@ -25,9 +25,9 @@ export const newMessage = (data: MessageType) => ({ type: 'NEW_MSG', data });
  * @returns
  */
 export const onSignOut = () => {
-  const ws = superSocket.socket;
+  const ws = SuperSocket;
   AppConfig.set('token', '');
   localStorage.removeItem('token');
-  ws.close();
   store.dispatch(detectLoginAction({ isLogin: false, userInfo: {} as UserType }));
+  ws.close();
 };

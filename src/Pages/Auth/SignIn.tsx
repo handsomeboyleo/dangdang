@@ -1,11 +1,9 @@
-import React, { FC, useState, useEffect } from 'react';
-import {
-  Button, Form, Input,
-} from 'antd-mobile';
+import React, { FC, useEffect, useState } from 'react';
+import { Button, Form, Input } from 'antd-mobile';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getUserInfo, signIn, tokenSignIn } from '../../API/account';
+import { getUserInfo, signIn, tokenSignIn } from '../../Api/account';
 import { detectLoginAction } from '../../Redux/actions';
 import { AppConfig } from '../../config';
 import { UserType } from '../../Types/accountTypes';
@@ -29,7 +27,7 @@ const StyledButtonArea = styled.div`
 const TokenSignIn:FC = ({ children }) => {
   const token = localStorage.getItem('token');
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const onTokenLogin = async () => {
     await tokenSignIn().then((res) => {
       if (res.code === 200) {
@@ -37,7 +35,7 @@ const TokenSignIn:FC = ({ children }) => {
           isLogin: true,
           userInfo: res.data as UserType,
         }));
-        navigate('/home', { replace: true });
+        // navigate('/home', { replace: true });
       }
     });
   };

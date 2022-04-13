@@ -1,12 +1,14 @@
 import React from 'react';
 import AppLayout from '../Components/AppLayout/AppLayout';
 import Home from '../Pages/Home/Home';
-import Contact from '../Pages/Contact/Contact';
 import Messages from '../Pages/Messages/Messages';
 import UserCenter from '../Pages/UserCenter/UserCenter';
 import NotFoundPage from '../Pages/NotFoundPage';
 import Authorization from '../Pages/Auth/Authorization';
 import Chat from '../Pages/Messages/Chat';
+import { asyncComponent } from '../Utils/asyncComponent';
+
+const AsyncContact = asyncComponent(() => import('../Pages/Contact/Contact'));
 
 export const routeMap = [
   {
@@ -27,7 +29,7 @@ export const routeMap = [
       },
       {
         path: 'contact',
-        element: <Contact />,
+        element: <AsyncContact />,
       },
       {
         path: 'messages',

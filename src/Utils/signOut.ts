@@ -1,13 +1,13 @@
-import { useMemo, useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { detectLoginAction } from '../Redux/actions';
-import { superSocket } from './superSocket';
+import { SuperSocket } from './superSocket';
 import { AppConfig } from '../config';
 import { UserType } from '../Types/accountTypes';
 
 export const useSignOut = () => {
   const dispatch = useDispatch();
-  const ws = superSocket.socket;
+  const ws = SuperSocket;
   const doSignOut = useCallback(() => {
     AppConfig.set('token', '');
     localStorage.removeItem('token');

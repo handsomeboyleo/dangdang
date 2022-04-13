@@ -1,9 +1,9 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Button, Form, Input } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { register, getUserInfo } from '../../API/account';
+import { getUserInfo, register } from '../../Api/account';
 import { detectLoginAction } from '../../Redux/actions';
 import { UserType } from '../../Types/accountTypes';
 import CustomUploadButton from '../../Components/AvatorUpload';

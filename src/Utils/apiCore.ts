@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { Dialog, Toast } from 'antd-mobile';
-import { apiBaseUrl, AppConfig } from '../config';
+import { AppConfig } from '../config';
 import { onSignOut } from '../Redux/actions';
 
 interface ResponseDataType<T> {
@@ -12,6 +12,7 @@ interface RequestOptionType{
   auth: boolean,
   header: AxiosRequestConfig
 }
+
 const request = (opt: RequestOptionType) => {
   const {
     auth, header = {},
@@ -21,16 +22,16 @@ const request = (opt: RequestOptionType) => {
     ...header,
   };
   if (auth) {
-    // eslint-disable-next-line dot-notation
-    headers['Authorization'] = `Bearer ${AppConfig.get('token')}`;
+    headers.Authorization = `Bearer ${AppConfig.get('token')}`;
   }
-  const instance = axios.create({
-    baseURL: apiBaseUrl,
+  return axios.create({
+    // baseURL: apiBaseUrl,
+    baseURL: '/dingServer',
     timeout: 10000,
     headers,
   });
-  return instance;
 };
+
 const handleError = (err: ResponseDataType<any>) => {
   if (err.code === 401) {
     const handle = Dialog.show({
@@ -51,6 +52,7 @@ const handleError = (err: ResponseDataType<any>) => {
     content: `${err.code}: ${err.msg}`,
   });
 };
+
 const get = async <T>(url: string, params?: string, options?: any) => new Promise<ResponseDataType<T>>((resolve, reject) => {
   request({ auth: true, ...options }).get(url, {
     params,

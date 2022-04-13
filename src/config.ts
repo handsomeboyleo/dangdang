@@ -1,9 +1,9 @@
 /**
  * HttpRequestBaseURL
  */
-export const apiBaseUrl = process.env.NODE_ENV === 'development'
-  ? 'http://localhost:8080' // development
-  : 'http://81.68.211.2/api'; // production
+// export const apiBaseUrl = process.env.NODE_ENV === 'development'
+//   ? 'http://localhost:8080' // development
+//   : 'http://81.68.211.2/api'; // production
 
 /**
  * WebsocketBaseURL

@@ -6,6 +6,11 @@ import { routeMap } from './RouterMap';
 import AuthRouter from './AuthRouter';
 import SuperSocketProvider from '../Utils/SuperSocketProvider';
 
+// const AsyncRouter = (components) => (
+//   <>
+//   </>
+// );
+
 const CustomRouter:FC = () => {
   const dispatch = useDispatch();
   const JsRoutes = () => {

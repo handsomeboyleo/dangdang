@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import { ImageUploadItem } from 'antd-mobile/es/components/image-uploader';
 import { ImageUploader } from 'antd-mobile';
 import { PictureOutline } from 'antd-mobile-icons';
-import { uploadAvatar } from '../API/upload';
+import { uploadAvatar } from '../Api/upload';
 
 interface CustomUploadButtonProps {
     onImg:React.Dispatch<React.SetStateAction<string>>

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { addChatList, selectChatAction } from '../../Redux/actions';
 import { useStoreSelector } from '../../Redux/selector';
 import { UserType } from '../../Types/accountTypes';
-import { getAllUsers } from '../../API/account';
+import { getAllUsers } from '../../Api/account';
 
 const MessageContainer = styled.div`
   width: 100%;
