@@ -1,7 +1,7 @@
-import {useCallback, useMemo, useState} from 'react';
-import {wsBaseUrl} from '../config';
-import {MessageType, OptionMessageType} from '../Pages/Messages/type';
-import {SuperSocket} from '../Utils/superSocket';
+import { useCallback, useMemo, useState } from 'react';
+import { wsBaseUrl } from '../config';
+import { MessageType, OptionMessageType } from '../Pages/Messages/type';
+import { SuperSocket } from '../Utils/superSocket';
 
 export const useSuperSocket = (id: string) => {
   const [ss, setSS] = useState<WebSocket>();

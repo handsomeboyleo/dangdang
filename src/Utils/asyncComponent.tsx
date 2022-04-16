@@ -1,4 +1,4 @@
-import React, {ComponentClass, FC} from 'react';
+import React, { ComponentClass, FC } from 'react';
 
 type ReactComponent<T> = FC<T> | ComponentClass<T>;
 
@@ -21,18 +21,18 @@ export const asyncComponent = <T extends {}>(loadComponent: LoadComponent<T>) =>
   async componentDidMount() {
     const module = await loadComponent();
     if ('default' in module) {
-      this.setState({isMounted: true, Component: module.default});
+      this.setState({ isMounted: true, Component: module.default });
     } else {
-      this.setState({isMounted: true, Component: module});
+      this.setState({ isMounted: true, Component: module });
     }
   }
 
   componentWillUnmount() {
-    this.setState({isMounted: false});
+    this.setState({ isMounted: false });
   }
 
   render() {
-    const {Component, isMounted} = this.state;
+    const { Component, isMounted } = this.state;
 
     return <>{isMounted && Component && <Component {...this.props} />}</>;
   }

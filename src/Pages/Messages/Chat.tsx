@@ -1,18 +1,18 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Button, NavBar, TextArea, Toast,
 } from 'antd-mobile';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
-import {useDispatch} from 'react-redux';
-import {useStoreSelector} from '../../Redux/selector';
-import {SuperSocket} from '../../Utils/superSocket';
-import {getUserChat, sendMessage} from '../../Api/chat';
-import {newMessage} from '../../Redux/actions';
+import { useDispatch } from 'react-redux';
+import { useStoreSelector } from '../../Redux/selector';
+import { SuperSocket } from '../../Utils/superSocket';
+import { getUserChat, sendMessage } from '../../Api/chat';
+import { newMessage } from '../../Redux/actions';
 import ChatMsgList from './ChatMsgList';
-import {UserType} from '../../Types/accountTypes';
-import {MessageType} from './type';
+import { UserType } from '../../Types/accountTypes';
+import { MessageType } from './type';
 
 const StyledChatContainer = styled.div`
   width: 100%;
@@ -94,34 +94,34 @@ const Chat: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-      <StyledChatContainer id="container">
-        <NavBar onBack={back} back="返回">
-          {
+    <StyledChatContainer id="container">
+      <NavBar onBack={back} back="返回">
+        {
             currentChatUser
           }
-        </NavBar>
-        <ChatMsgList
-            authUser={auth.userInfo as UserType}
-            currentChatUser={chatUser}
-            initMsgList={msgList}
+      </NavBar>
+      <ChatMsgList
+        authUser={auth.userInfo as UserType}
+        currentChatUser={chatUser}
+        initMsgList={msgList}
+      />
+      <StyledTextArea>
+        <TextArea
+          placeholder="说点什么吧..."
+          value={value}
+          onChange={setValue}
+          autoSize={{ minRows: 1, maxRows: 4 }}
         />
-        <StyledTextArea>
-          <TextArea
-              placeholder="说点什么吧..."
-              value={value}
-              onChange={setValue}
-              autoSize={{minRows: 1, maxRows: 4}}
-          />
-          <StyledSendButton
-              color="success"
-              block
-              onClick={sendMsg}
-              disabled={value.length <= 0}
-          >
-            发送
-          </StyledSendButton>
-        </StyledTextArea>
-      </StyledChatContainer>
+        <StyledSendButton
+          color="success"
+          block
+          onClick={sendMsg}
+          disabled={value.length <= 0}
+        >
+          发送
+        </StyledSendButton>
+      </StyledTextArea>
+    </StyledChatContainer>
   );
 };
 export default Chat;

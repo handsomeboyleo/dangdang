@@ -1,11 +1,11 @@
-import React, {FC, useEffect, useState} from 'react';
-import {Button, Form, Input} from 'antd-mobile';
-import {useDispatch} from 'react-redux';
+import React, { FC, useEffect, useState } from 'react';
+import { Button, Form, Input } from 'antd-mobile';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import {getUserInfo, signIn, tokenSignIn} from '../../Api/account';
-import {detectLoginAction} from '../../Redux/actions';
-import {AppConfig} from '../../config';
-import {UserType} from '../../Types/accountTypes';
+import { getUserInfo, signIn, tokenSignIn } from '../../Api/account';
+import { detectLoginAction } from '../../Redux/actions';
+import { AppConfig } from '../../config';
+import { UserType } from '../../Types/accountTypes';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const StyledButtonArea = styled.div`
   height: 200px;
 `;
 
-const TokenSignIn: FC = ({children}) => {
+const TokenSignIn: FC = ({ children }) => {
   const token = localStorage.getItem('token');
   const dispatch = useDispatch();
   const onTokenLogin = async () => {
@@ -50,7 +50,7 @@ interface SignInProps {
   change: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SignIn: FC<SignInProps> = ({change}) => {
+const SignIn: FC<SignInProps> = ({ change }) => {
   const dispatch = useDispatch();
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
@@ -79,26 +79,26 @@ const SignIn: FC<SignInProps> = ({change}) => {
     }
   }, [dispatch, isLogin]);
   return (
-      <TokenSignIn>
-        <StyledContainer>
-          <Form layout="horizontal">
-            <Form.Item label="用户名" name="username">
-              <Input placeholder="请输入用户名" value={account} onChange={setAccount} clearable/>
-            </Form.Item>
-            <Form.Item label="密码" name="password">
-              <Input placeholder="请输入密码" value={password} onChange={setPassword} clearable type="password"/>
-            </Form.Item>
-          </Form>
-          <StyledButtonArea>
-            <Button disabled={!password || !account} shape="rounded" block color="primary" onClick={onSignIn}>
-              登陆
-            </Button>
-            <Button block shape="rounded" onClick={() => change(false)} color="primary">
-              注册
-            </Button>
-          </StyledButtonArea>
-        </StyledContainer>
-      </TokenSignIn>
+    <TokenSignIn>
+      <StyledContainer>
+        <Form layout="horizontal">
+          <Form.Item label="用户名" name="username">
+            <Input placeholder="请输入用户名" value={account} onChange={setAccount} clearable />
+          </Form.Item>
+          <Form.Item label="密码" name="password">
+            <Input placeholder="请输入密码" value={password} onChange={setPassword} clearable type="password" />
+          </Form.Item>
+        </Form>
+        <StyledButtonArea>
+          <Button disabled={!password || !account} shape="rounded" block color="primary" onClick={onSignIn}>
+            登陆
+          </Button>
+          <Button block shape="rounded" onClick={() => change(false)} color="primary">
+            注册
+          </Button>
+        </StyledButtonArea>
+      </StyledContainer>
+    </TokenSignIn>
   );
 };
 

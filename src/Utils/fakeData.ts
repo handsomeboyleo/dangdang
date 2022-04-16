@@ -1,5 +1,5 @@
-import {MessageType} from '../Pages/Messages/type';
-import {UserType} from '../Types/accountTypes';
+import { MessageType } from '../Pages/Messages/type';
+import { UserType } from '../Types/accountTypes';
 
 export const fakeMsgs = (user: UserType) => {
   const baseMsg = [] as MessageType[];

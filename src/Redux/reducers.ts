@@ -1,8 +1,8 @@
 // 包含n个reducer函数的模块
-import {combineReducers} from 'redux';
-import {ActionTypes} from './actionType';
+import { combineReducers } from 'redux';
+import { ActionTypes } from './actionType';
 
-const routerInfo = (state = {route: {}}, action: ActionTypes) => {
+const routerInfo = (state = { route: {} }, action: ActionTypes) => {
   switch (action.type) {
     case 'UPDATE_ROUTE':
       return action.data;
@@ -18,7 +18,7 @@ const headerInfo = (state = {}, action: ActionTypes) => {
       return state;
   }
 };
-const authState = (state = {isLogin: false}, action: ActionTypes) => {
+const authState = (state = { isLogin: false }, action: ActionTypes) => {
   switch (action.type) {
     case 'AUTH_CHANGE':
       localStorage.setItem('isLogin', JSON.stringify(action.data));
@@ -43,7 +43,7 @@ const chatList = (state = [], action: ActionTypes) => {
       return state;
   }
 };
-const newMessages = (state = {totalUnRead: 0, newMsgList: []}, action: ActionTypes) => {
+const newMessages = (state = { totalUnRead: 0, newMsgList: [] }, action: ActionTypes) => {
   switch (action.type) {
     case 'NEW_MSG':
       return {

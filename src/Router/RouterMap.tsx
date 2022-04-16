@@ -1,4 +1,4 @@
-import React, {lazy} from 'react';
+import React, { lazy } from 'react';
 
 // 声明懒加载路由列表类型
 export namespace LazyRoute {

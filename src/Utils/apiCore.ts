@@ -1,7 +1,7 @@
-import axios, {AxiosRequestConfig} from 'axios';
-import {Dialog, Toast} from 'antd-mobile';
-import {AppConfig} from '../config';
-import {onSignOut} from '../Redux/actions';
+import axios, { AxiosRequestConfig } from 'axios';
+import { Dialog, Toast } from 'antd-mobile';
+import { AppConfig } from '../config';
+import { onSignOut } from '../Redux/actions';
 
 interface ResponseDataType<T> {
   code: number,
@@ -55,7 +55,7 @@ const handleError = (err: ResponseDataType<any>) => {
 };
 
 const get = async <T>(url: string, params?: string, options?: any) => new Promise<ResponseDataType<T>>((resolve, reject) => {
-  request({auth: true, ...options}).get(url, {
+  request({ auth: true, ...options }).get(url, {
     params,
     ...options,
   }).then((res) => {
@@ -65,13 +65,13 @@ const get = async <T>(url: string, params?: string, options?: any) => new Promis
   });
 });
 const post = async <T>(url: string, body?: any, options?: any) => new Promise<ResponseDataType<T>>((resolve, reject) => {
-  request({auth: true, ...options}).post(url, body, options).then(
-      (res) => {
-        if (res.data.code !== 200) {
-          handleError(res.data);
-        }
-        resolve(res.data);
-      },
+  request({ auth: true, ...options }).post(url, body, options).then(
+    (res) => {
+      if (res.data.code !== 200) {
+        handleError(res.data);
+      }
+      resolve(res.data);
+    },
   ).catch((e) => {
     reject(e);
   });

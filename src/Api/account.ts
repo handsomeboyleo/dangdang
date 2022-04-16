@@ -1,9 +1,9 @@
 import api from '../Utils/apiCore';
 
 // 注册
-export const register = <T>(data: any) => api.post<T>('/account/register', data, {auth: false});
+export const register = <T>(data: any) => api.post<T>('/account/register', data, { auth: false });
 // 登陆
-export const signIn = (data: any) => api.post('/account/signIn', data, {auth: false});
+export const signIn = (data: any) => api.post('/account/signIn', data, { auth: false });
 // Token登陆
 export const tokenSignIn = () => api.get('/account/tokenLogin');
 // 登出

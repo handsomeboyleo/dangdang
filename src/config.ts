@@ -9,8 +9,8 @@
  * WebsocketBaseURL
  */
 export const wsBaseUrl = process.env.NODE_ENV === 'development'
-    ? 'ws://localhost:5050?' // development
-    : 'ws://81.68.211.2/ws?'; // production
+  ? 'ws://localhost:5050?' // development
+  : 'ws://81.68.211.2/ws?'; // production
 
 interface AppConfigMap {
   /**
@@ -31,8 +31,8 @@ export class AppConfig {
   static configMap = {} as AppConfigMap;
 
   static set = <T extends keyof AppConfigMap>(
-      key: T,
-      value: AppConfigMap[T],
+    key: T,
+    value: AppConfigMap[T],
   ) => {
     AppConfig.configMap[key] = value;
     if (key === 'token') {

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import CustomRouter from './Router/CustomRouter';
 import ErrorBoundary from './Providers/ErrorBoundary';
@@ -13,11 +13,11 @@ function App() {
     }
   }, [height]);
   return (
-      <ErrorBoundary>
-        <MultiProvider>
-          <CustomRouter/>
-        </MultiProvider>
-      </ErrorBoundary>
+    <ErrorBoundary>
+      <MultiProvider>
+        <CustomRouter />
+      </MultiProvider>
+    </ErrorBoundary>
   );
 }
 

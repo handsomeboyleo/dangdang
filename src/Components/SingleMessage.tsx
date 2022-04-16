@@ -1,8 +1,8 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
-import {Avatar} from 'antd-mobile';
-import {MessageType} from '../Pages/Messages/type';
-import {UserType} from '../Types/accountTypes';
+import { Avatar } from 'antd-mobile';
+import { MessageType } from '../Pages/Messages/type';
+import { UserType } from '../Types/accountTypes';
 
 const MsgContainer = styled.div`
   display: flex;
@@ -44,16 +44,16 @@ interface SingleMessageProps {
     msg: MessageType
 }
 
-const SingleMessage: FC<SingleMessageProps> = ({chatUser, user, msg}) => (
-    <MsgContainer style={{flexDirection: `${msg.send === user.id ? 'row-reverse' : 'row'}`}}>
-        <MsgUser
-            src={msg.send === user.id ? user.avatar : chatUser.avatar}
-            fit="cover"
-        />
-        <MsgBox>
-            <MsgContent>{msg.msg}</MsgContent>
-        </MsgBox>
-    </MsgContainer>
+const SingleMessage: FC<SingleMessageProps> = ({ chatUser, user, msg }) => (
+  <MsgContainer style={{ flexDirection: `${msg.send === user.id ? 'row-reverse' : 'row'}` }}>
+    <MsgUser
+      src={msg.send === user.id ? user.avatar : chatUser.avatar}
+      fit="cover"
+    />
+    <MsgBox>
+      <MsgContent>{msg.msg}</MsgContent>
+    </MsgBox>
+  </MsgContainer>
 );
 
 export default SingleMessage;

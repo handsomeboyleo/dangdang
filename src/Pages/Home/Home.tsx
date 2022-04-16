@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Button} from 'antd-mobile';
-import {useStoreSelector} from '../../Redux/selector';
-import {SuperSocket} from '../../Utils/superSocket';
+import { Button } from 'antd-mobile';
+import { useStoreSelector } from '../../Redux/selector';
+import { SuperSocket } from '../../Utils/superSocket';
 
 const StyledChatContainer = styled.div`
   width: 100%;
@@ -17,9 +17,9 @@ const Home = () => {
     ws.init(auth.userInfo.id);
   };
   return (
-      <StyledChatContainer>
-        <Button onClick={connect}>xxxxx</Button>
-      </StyledChatContainer>
+    <StyledChatContainer>
+      <Button onClick={connect}>xxxxx</Button>
+    </StyledChatContainer>
   );
 };
 

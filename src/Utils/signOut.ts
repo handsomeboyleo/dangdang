@@ -1,9 +1,9 @@
-import {useCallback, useMemo} from 'react';
-import {useDispatch} from 'react-redux';
-import {detectLoginAction} from '../Redux/actions';
-import {SuperSocket} from './superSocket';
-import {AppConfig} from '../config';
-import {UserType} from '../Types/accountTypes';
+import { useCallback, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { detectLoginAction } from '../Redux/actions';
+import { SuperSocket } from './superSocket';
+import { AppConfig } from '../config';
+import { UserType } from '../Types/accountTypes';
 
 export const useSignOut = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ export const useSignOut = () => {
     AppConfig.set('token', '');
     localStorage.removeItem('token');
     ws.close();
-    dispatch(detectLoginAction({isLogin: false, userInfo: {} as UserType}));
+    dispatch(detectLoginAction({ isLogin: false, userInfo: {} as UserType }));
   }, [dispatch, ws]);
 
   return useMemo(() => ({

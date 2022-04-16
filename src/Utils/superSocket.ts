@@ -1,4 +1,4 @@
-import {Toast} from 'antd-mobile';
+import { Toast } from 'antd-mobile';
 
 const WsStatus = {
   /**

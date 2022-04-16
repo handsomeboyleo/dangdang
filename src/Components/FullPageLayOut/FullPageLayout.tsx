@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Outlet} from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 const StyledBody = styled.div`
   flex: 1;
@@ -13,11 +13,11 @@ const StyledBody = styled.div`
   overflow: auto
 `;
 const FullPageLayout: React.FC = () => (
-    <>
-        <StyledBody>
-            <Outlet/>
-        </StyledBody>
-    </>
+  <>
+    <StyledBody>
+      <Outlet />
+    </StyledBody>
+  </>
 );
 
 export default FullPageLayout;

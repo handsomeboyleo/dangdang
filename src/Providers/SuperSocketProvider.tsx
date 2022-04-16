@@ -1,11 +1,11 @@
-import React, {FC, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {useStoreSelector} from '../Redux/selector';
-import {MessageType} from '../Pages/Messages/type';
-import {newMessage} from '../Redux/actions';
-import {SuperSocket} from '../Utils/superSocket';
+import React, { FC, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useStoreSelector } from '../Redux/selector';
+import { MessageType } from '../Pages/Messages/type';
+import { newMessage } from '../Redux/actions';
+import { SuperSocket } from '../Utils/superSocket';
 
-const SuperSocketProvider: FC = ({children}) => {
+const SuperSocketProvider: FC = ({ children }) => {
   const dispatch = useDispatch();
   const authState = useStoreSelector((state) => state.authState);
   const ss = SuperSocket;

@@ -1,10 +1,10 @@
-import React, {FC, Suspense} from 'react';
+import React, { FC, Suspense } from 'react';
 import {
   BrowserRouter as Router, RouteObject, useLocation, useRoutes,
 } from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import {routerUpdate} from '../Redux/actions';
-import {LazyRoute, routeMap} from './RouterMap';
+import { useDispatch } from 'react-redux';
+import { routerUpdate } from '../Redux/actions';
+import { LazyRoute, routeMap } from './RouterMap';
 
 /**
  * 懒加载路由
@@ -16,9 +16,9 @@ const lazyRoutes = (originalRoutes: LazyRoute.Routes[]) => {
     warpRoutes.push({
       path: route.path,
       element: (
-          <Suspense fallback={<div>路由加载ing...</div>}>
-            <route.element/>
-          </Suspense>
+        <Suspense fallback={<div>路由加载ing...</div>}>
+          <route.element />
+        </Suspense>
       ),
       children: route.children && lazyRoutes(route.children),
     });
@@ -39,9 +39,9 @@ const CustomRouter: FC = () => {
     return jsRoutes;
   };
   return (
-      <Router>
-        <JsRoutes/>
-      </Router>
+    <Router>
+      <JsRoutes />
+    </Router>
   );
 };
 

@@ -1,12 +1,12 @@
-import React, {FC, useEffect, useState} from 'react';
-import {DotLoading, Image, List} from 'antd-mobile';
-import {useDispatch} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
+import { DotLoading, Image, List } from 'antd-mobile';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import {addChatList, selectChatAction} from '../../Redux/actions';
-import {useStoreSelector} from '../../Redux/selector';
-import {UserType} from '../../Types/accountTypes';
-import {getAllUsers} from '../../Api/account';
+import { addChatList, selectChatAction } from '../../Redux/actions';
+import { useStoreSelector } from '../../Redux/selector';
+import { UserType } from '../../Types/accountTypes';
+import { getAllUsers } from '../../Api/account';
 
 const MessageContainer = styled.div`
   width: 100%;
@@ -37,30 +37,30 @@ const Contact: FC = () => {
     navigate('/chat');
   };
   return (
-      <MessageContainer>
-        <List header="用户列表">
-          {
-            loading ? <DotLoading color="primary"/> : users.length !== 0 && users.map((user) => (
-                <List.Item
-                    key={user.name}
-                    onClick={() => onSelectUser(user)}
-                    prefix={(
-                        <Image
-                            src={user.avatar || ''}
-                            style={{borderRadius: 20}}
-                            fit="cover"
-                            width={40}
-                            height={40}
-                        />
+    <MessageContainer>
+      <List header="用户列表">
+        {
+            loading ? <DotLoading color="primary" /> : users.length !== 0 && users.map((user) => (
+              <List.Item
+                key={user.name}
+                onClick={() => onSelectUser(user)}
+                prefix={(
+                  <Image
+                    src={user.avatar || ''}
+                    style={{ borderRadius: 20 }}
+                    fit="cover"
+                    width={40}
+                    height={40}
+                  />
                     )}
-                    description={user.description}
-                >
-                  {user.name}
-                </List.Item>
+                description={user.description}
+              >
+                {user.name}
+              </List.Item>
             ))
           }
-        </List>
-      </MessageContainer>
+      </List>
+    </MessageContainer>
 
   );
 };
