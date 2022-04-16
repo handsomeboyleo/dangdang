@@ -95,8 +95,15 @@ const Register: FC<RegisterProps> = ({change}) => {
           </Form.Item>
         </Form>
         <StyledButtonArea>
-          <Button block color="primary" shape="rounded" onClick={onRegister}
-                  disabled={!password || !account}>注册</Button>
+          <Button
+              block
+              color="primary"
+              shape="rounded"
+              onClick={onRegister}
+              disabled={!password || !account}
+          >
+            注册
+          </Button>
           <Button block color="primary" shape="rounded" onClick={() => change(true)}>登陆</Button>
         </StyledButtonArea>
       </StyledContainer>
