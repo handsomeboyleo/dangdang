@@ -1,23 +1,24 @@
-import { Toast } from 'antd-mobile';
+import { MessageType } from '../Pages/Messages/type';
+import { newMessage } from '../Redux/actions';
+import store from '../Redux/store';
+import loading from './loading';
+import { UserType } from '../Types/accountTypes';
 
-const WsStatus = {
+enum SuperSocketStatus {
   /**
    * 断线
    */
-  OFF: 'OFF',
+  OFF = 'OFF',
   /**
    * 就绪
    */
-  READY: 'READY',
+  READY = 'READY',
   /**
    * 重新连接中
    */
-  RECONNECTING: 'RECONNECTING',
-};
+  RECONNECTING = 'RECONNECTING',
+}
 
-/**
- * @description SuperSocket实例
- */
 class Socket {
   /**
    * websocket实例
@@ -26,47 +27,60 @@ class Socket {
   private _socket: WebSocket | any;
 
   /**
-   * SuperSocket连接Id
+   * SuperSocket用户
    * @private
    */
-  private _wsId: string | any;
+  private _socketUser: UserType | any
 
   /**
    * SuperSocket状态
    */
-  public status: string | undefined;
+  status: SuperSocketStatus | undefined;
+
+  /**
+   * @description 设置socket用户
+   * @param user UserType 
+   * @returns SuperSocket
+   */
+  setConfig(user:UserType) {
+    this._socketUser = user
+    return this
+  }
 
   /**
    * 生成superSocket通信
-   * @param userId:string userId
    * @param protocols?:string
    */
-  init(userId: string, protocols?: string | string[] | undefined) {
-    if (this.status !== WsStatus.READY) {
-      if (!this._wsId) {
-        // 防止重连时多次重置
-        this._wsId = userId;
-      }
-      const url = `${process.env.REACT_APP_WS_BASE_URL}?${userId}`;
+  init(protocols?: string | string[] | undefined) {
+    if (this.status !== SuperSocketStatus.READY) {
+      const url = `${process.env.REACT_APP_WS_BASE_URL}?${this._socketUser.id}`;
       const ws = new WebSocket(url, protocols);
 
       ws.onopen = () => {
-        this.status = WsStatus.READY;
+        this.status = SuperSocketStatus.READY;
         const timer = setInterval(() => {
           if (ws.readyState === 1) {
             ws.send(JSON.stringify({
               type: 'HEARTBEAT',
-              send: userId,
+              send: this._socketUser.id,
               msg: 'heartbeat',
             }));
           } else {
             clearInterval(timer);
           }
         }, 30000);
-        console.info(`%c-- ${userId} websocket connected --`, 'color:green');
+        console.info(`%c-- ${this._socketUser.name} websocket connected --`, 'color:green');
+      };
+      ws.onmessage = async (e: MessageEvent) => {
+        const message = JSON.parse(e.data) as MessageType;
+        if (message.type === 'OPERATION') {
+          console.log(message);
+        } else if (message.type === 'MESSAGE') {
+          store.dispatch(newMessage(message));
+        }
       };
       ws.onclose = () => {
-        if (this.status !== WsStatus.RECONNECTING && this.status !== WsStatus.OFF) {
+        if (this.status !== SuperSocketStatus.RECONNECTING && this.status !== SuperSocketStatus.OFF) {
           this.reconnect();
         }
         console.warn('ws连接已断开！');
@@ -74,6 +88,7 @@ class Socket {
       ws.onerror = () => {
         console.warn('ws连接异常！');
       };
+      
       return this._socket = ws;
     }
     console.log('socket 已经存在了', this._socket);
@@ -84,19 +99,14 @@ class Socket {
    * 重新连接
    */
   reconnect() {
-    this.status = WsStatus.RECONNECTING;
-    Toast.show({
-      content: '断线重连中...',
-      icon: 'loading',
-      maskClickable: false,
-      duration: 0,
-    });
+    this.status = SuperSocketStatus.RECONNECTING;
+    loading.show('断线重连中...');
     const timer = setInterval(() => {
-      if (this.status === WsStatus.READY) {
-        Toast.clear();
+      if (this.status === SuperSocketStatus.READY) {
+        loading.close();
         clearInterval(timer);
       } else {
-        this.init(this._wsId);
+        this.init();
       }
     }, 3000);
   }
@@ -105,7 +115,7 @@ class Socket {
    * 断开连接
    */
   close() {
-    this.status = WsStatus.OFF;
+    this.status = SuperSocketStatus.OFF;
     this._socket.close();
   }
 
@@ -117,4 +127,7 @@ class Socket {
   }
 }
 
+/**
+ * @description SuperSocket实例
+ */
 export const SuperSocket = new Socket();

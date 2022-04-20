@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from 'antd-mobile';
-import { useStoreSelector } from '../../Redux/selector';
 import { SuperSocket } from '../../Utils/superSocket';
 
 const StyledChatContainer = styled.div`
@@ -11,10 +10,9 @@ const StyledChatContainer = styled.div`
   flex-direction: column;
 `;
 const Home = () => {
-  const auth = useStoreSelector((s) => s.authState);
   const ws = SuperSocket;
   const connect = () => {
-    ws.init(auth.userInfo.id);
+    ws.init();
   };
   return (
     <StyledChatContainer>

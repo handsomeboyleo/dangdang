@@ -14,7 +14,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
   flex: 1;
   justify-content: center;
-  background-color: #FFFFFF
+  background-color: #FFFFFF;
 `;
 const StyledButtonArea = styled.div`
   display: flex;

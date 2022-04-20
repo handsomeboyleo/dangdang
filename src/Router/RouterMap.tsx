@@ -5,7 +5,9 @@ export namespace LazyRoute {
   export type Routes = {
     path: string,
     element: React.LazyExoticComponent<any>,
-    children?: Routes[]
+    children?: Routes[],
+    name?: string,
+    layout?:React.LazyExoticComponent<any>,
   }
 }
 

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './App.css';
 import CustomRouter from './Router/CustomRouter';
 import ErrorBoundary from './Providers/ErrorBoundary';
-import MultiProvider from './Providers/MultyProvider';
+import MultiProvider from './Providers/MultiProvider';
 
 function App() {
   const height = window.innerHeight;
