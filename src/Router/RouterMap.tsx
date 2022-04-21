@@ -3,11 +3,12 @@ import React, { lazy } from 'react';
 // 声明懒加载路由列表类型
 export namespace LazyRoute {
   export type Routes = {
-    path: string,
+    path?: string,
     element: React.LazyExoticComponent<any>,
     children?: Routes[],
     name?: string,
-    layout?:React.LazyExoticComponent<any>,
+    layout?: React.LazyExoticComponent<any>, // 页面所用布局
+    index?: boolean // 是否默认路由
   }
 }
 
@@ -25,7 +26,7 @@ export const routeMap: LazyRoute.Routes[] = [
     element: lazy(() => import('../Components/AppLayout/AppLayout')), // app内页面
     children: [
       {
-        path: 'home',
+        index: true,
         element: lazy(() => import('../Pages/Home/Home')),
       },
       {

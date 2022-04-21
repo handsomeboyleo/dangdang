@@ -30,7 +30,7 @@ class Socket {
    * SuperSocket用户
    * @private
    */
-  private _socketUser: UserType | any
+  private _socketUser: UserType | any;
 
   /**
    * SuperSocket状态
@@ -39,12 +39,12 @@ class Socket {
 
   /**
    * @description 设置socket用户
-   * @param user UserType 
+   * @param user UserType
    * @returns SuperSocket
    */
   setConfig(user:UserType) {
-    this._socketUser = user
-    return this
+    this._socketUser = user;
+    return this;
   }
 
   /**
@@ -88,7 +88,7 @@ class Socket {
       ws.onerror = () => {
         console.warn('ws连接异常！');
       };
-      
+
       return this._socket = ws;
     }
     console.log('socket 已经存在了', this._socket);

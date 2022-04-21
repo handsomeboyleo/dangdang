@@ -15,6 +15,7 @@ const lazyRoutes = (originalRoutes: LazyRoute.Routes[]) => {
   originalRoutes.forEach((route) => {
     warpRoutes.push({
       path: route.path,
+      index: route.index,
       element: (
         <Suspense fallback={<div>路由加载ing...</div>}>
           <route.element />
