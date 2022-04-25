@@ -19,27 +19,6 @@ jobs:
         
       - name: Build Project
         run: npm run build
-      
-      # 利用action把build好的文件上传到服务器./路径下,需要确认此目录已在服务端创建
-#       - name: Deploy
-#         uses: wlixcc/SFTP-Deploy-Action@v1.0
-#         with:  
-#           username: '${{ secrets.SERVER_NAME }}'   #ssh user name
-#           server: '${{ secrets.SERVER_IP }}' #引用之前创建好的secret
-#           ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY }}' #引用之前创建好的secret
-#           local_path: './build/*'  # 对应我们项目build的文件夹路径
-#           remote_path: '/'
-          
-      - name: Deploy to Server # 2. deploy to remote server
-        uses: AEnterprise/rsync-deploy@v1.0 # Use a third party action (https://github.com/AEnterprise/rsync-deploy)
-        env:
-          DEPLOY_KEY: ${{ secrets.SSH_PRIVATE_KEY }} # use pre-configured secret (the private key)
-          ARGS: -avz --delete # must have this variable
-          SERVER_PORT: "22" # SSH port
-          FOLDER: ./ # folder to push (./ is the root of current repo)
-          SERVER_IP: ${{ secrets.SERVER_IP }} # use pre-configured ssh_host value (e.g., IP or domain.com）
-          USERNAME: ${{ secrets.SERVER_NAME }} # use pre-configured ssh_username value
-          SERVER_DESTINATION: /var/www/xxx/ # put your repo files on this directory of the remote server
           
       - name: Deploy
         uses: LubricantJam/SFTP-Deploy-Action@v2.1
