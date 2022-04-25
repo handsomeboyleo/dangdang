@@ -26,10 +26,8 @@ jobs:
           server: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_NAME }}
           ssh_password: ${{ secrets.SERVER_PASSWORD }}
-           # Local path to repository
-          local-path: . # default is .
-          # Remote path on host
-          remote-path: ./ # default is .
+          local_path: ./      # default is .
+          remote_path: /      # default is .
           ssh_command: exit
           compress: false
         
