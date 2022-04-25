@@ -26,8 +26,8 @@ jobs:
           server: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_NAME }}
           ssh_password: ${{ secrets.SERVER_PASSWORD }}
-          local_path: './build/*'      # default is .
+          local_path: './'      # default is .
           remote_path: '/build/'    # default is .
           ssh_command: exit
-          compress: false
-        
+          compress: true
+          
