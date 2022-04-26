@@ -31,15 +31,4 @@ jobs:
           pass: ${{ secrets.SERVER_PASSWORD }}
           connect_timeout: 10s
           local: './build/*'
-          remote: /
-  #    - name: Deploy
- #         uses: LubricantJam/SFTP-Deploy-Action@v2.1
-  #        with: 
-     #       server: ${{ secrets.SERVER_IP }}
-        #    username: ${{ secrets.SERVER_NAME }}
-#            ssh_password: ${{ secrets.SERVER_PASSWORD }}
-   #         local_path: './build/*'      # default is .
-     #       remote_path: '/build/'    # default is .
-       #     ssh_command: exit
-        #    compress: true
-          
+          remote: /Program Files/nginx-1.21.3/html/build
