@@ -12,7 +12,7 @@ const StyledTabBar = styled(TabBar)`
 `;
 const tabs = [
   {
-    key: '/home',
+    key: '/',
     title: '首页',
     icon: <AppOutline />,
   },

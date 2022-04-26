@@ -17,7 +17,9 @@ const lazyRoutes = (originalRoutes: LazyRoute.Routes[]) => {
       path: route.path,
       index: route.index,
       element: (
-        <Suspense fallback={<div>路由加载ing...</div>}>
+        <Suspense
+          fallback={<div>路由加载ing...</div>}
+        >
           <route.element />
         </Suspense>
       ),

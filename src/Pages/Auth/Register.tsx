@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Button, Form, Input } from 'antd-mobile';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { getUserInfo, register } from '../../Api/account';
@@ -33,7 +32,6 @@ interface RegisterProps {
 
 const Register: FC<RegisterProps> = ({ change }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
@@ -72,10 +70,9 @@ const Register: FC<RegisterProps> = ({ change }) => {
           isLogin: true,
           userInfo: res.data as UserType,
         }));
-        navigate('/home', { replace: true });
       });
     }
-  }, [dispatch, isLogin, navigate]);
+  }, [dispatch, isLogin]);
 
   return (
     <StyledContainer>
