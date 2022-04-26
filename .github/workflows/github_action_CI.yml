@@ -21,13 +21,25 @@ jobs:
         run: npm run build
           
       - name: Deploy
-        uses: LubricantJam/SFTP-Deploy-Action@v2.1
-        with: 
-          server: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_NAME }}
-          ssh_password: ${{ secrets.SERVER_PASSWORD }}
-          local_path: './build/*'      # default is .
-          remote_path: '/build/'    # default is .
-          ssh_command: exit
-          compress: true
+        uses: cross-the-world/scp-pipeline@master
+        env:
+          WELCOME: "ssh scp ssh pipelines"
+          LASTSSH: "Doing something after copying"
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          user: ${{ secrets.SERVER_NAME }}
+          pass: ${{ secrets.SERVER_PASSWORD }}
+          connect_timeout: 10s
+          local: './build/*'
+          remote: /
+  #    - name: Deploy
+ #         uses: LubricantJam/SFTP-Deploy-Action@v2.1
+  #        with: 
+     #       server: ${{ secrets.SERVER_IP }}
+        #    username: ${{ secrets.SERVER_NAME }}
+#            ssh_password: ${{ secrets.SERVER_PASSWORD }}
+   #         local_path: './build/*'      # default is .
+     #       remote_path: '/build/'    # default is .
+       #     ssh_command: exit
+        #    compress: true
           
