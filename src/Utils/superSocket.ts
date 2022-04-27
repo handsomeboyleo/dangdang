@@ -4,6 +4,11 @@ import store from '../Redux/store';
 import loading from './loading';
 import { UserType } from '../Types/accountTypes';
 
+interface SuperSocketConfigType {
+  user: UserType;
+  wsURL: string
+}
+
 enum SuperSocketStatus {
   /**
    * 断线
@@ -33,17 +38,24 @@ class Socket {
   private _socketUser: UserType | any;
 
   /**
+   * wsURL
+   * @private
+   */
+  private _wsURL:string|any
+
+  /**
    * SuperSocket状态
    */
   status: SuperSocketStatus | undefined;
 
   /**
    * @description 设置socket用户
-   * @param user UserType
+   * @param config SuperSocketConfigType
    * @returns SuperSocket
    */
-  setConfig(user:UserType) {
-    this._socketUser = user;
+  setConfig(config:SuperSocketConfigType) {
+    this._socketUser = config.user;
+    this._wsURL = config.wsURL;
     return this;
   }
 
@@ -53,7 +65,8 @@ class Socket {
    */
   init(protocols?: string | string[] | undefined) {
     if (this.status !== SuperSocketStatus.READY) {
-      const url = `${process.env.REACT_APP_WS_BASE_URL}?${this._socketUser.id}`;
+      const url = `${this._wsURL}?${this._socketUser.id}`;
+      // const url = `${process.env.REACT_APP_WS_BASE_URL}?${this._socketUser.id}`;
       const ws = new WebSocket(url, protocols);
 
       ws.onopen = () => {
