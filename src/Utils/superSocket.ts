@@ -41,7 +41,7 @@ class Socket {
    * wsURL
    * @private
    */
-  private _wsURL:string|any
+  private _wsURL: string | any;
 
   /**
    * SuperSocket状态
