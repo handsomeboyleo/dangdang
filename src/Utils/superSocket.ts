@@ -9,6 +9,7 @@ interface SuperSocketConfigType {
   wsURL: string
 }
 
+// eslint-disable-next-line no-shadow
 enum SuperSocketStatus {
   /**
    * 断线
