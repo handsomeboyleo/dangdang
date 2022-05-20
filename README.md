@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# DangDang聊天app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+使用react+ts开发的web聊天应用，实现添加用户，一对一聊天，聊天广场等功能。
+master分支是当前线上版本。
+开发请切换最新develop分支
 
 ## Available Scripts
 
